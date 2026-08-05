@@ -1,33 +1,37 @@
 import type { Metadata } from "next";
-import { Montserrat } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
+import { Analytics } from "@/components/Analytics";
 import { ThemeProvider } from "@/components/ThemeProvider";
-import { FloatingNavbar } from "@/components/FloatingNavbar";
+import { BUSINESS, getSiteUrl } from "@/lib/site";
 
-const montserrat = Montserrat({
+const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
-  variable: "--font-montserrat",
+  variable: "--font-plus-jakarta-sans",
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Shanti Catering Surabaya – Catering Premium & Nasi Kotak Terbaik",
-  description:
-    "Shanti Catering Surabaya menyediakan layanan catering premium, nasi kotak, bento, dan prasmanan untuk pernikahan, kantor, dan event. Rasa bintang 5, harga kompetitif.",
-  keywords: [
-    "catering surabaya",
-    "catering pernikahan surabaya",
-    "nasi kotak surabaya",
-    "bento box surabaya",
-    "catering kantor surabaya",
-    "shanti catering",
-    "catering terbaik surabaya"
-  ],
+  metadataBase: getSiteUrl(),
+  title: {
+    default: "Shanti Catering | Catering Surabaya untuk Berbagai Acara",
+    template: "%s | Shanti Catering",
+  },
+  description: BUSINESS.description,
+  keywords: ["catering Surabaya", "nasi kotak Surabaya", "prasmanan Surabaya", "paket catering"],
   openGraph: {
-    title: "Shanti Catering Surabaya – Solusi Catering Premium Anda",
-    description: "Nikmati sajian katering kualitas bintang 5 untuk momen spesial Anda di Surabaya. Pesan sekarang!",
+    title: "Shanti Catering | Catering Surabaya",
+    description: BUSINESS.description,
     type: "website",
+    locale: "id_ID",
+    images: [{ url: BUSINESS.image, width: 1200, height: 630, alt: "Sajian Shanti Catering" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Shanti Catering | Catering Surabaya",
+    description: BUSINESS.description,
+    images: [BUSINESS.image],
   },
 };
 
@@ -36,8 +40,25 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const siteUrl = getSiteUrl();
+  const localBusinessSchema = {
+    "@context": "https://schema.org",
+    "@type": "FoodEstablishment",
+    name: BUSINESS.name,
+    description: BUSINESS.description,
+    url: siteUrl.toString(),
+    image: new URL(BUSINESS.image, siteUrl).toString(),
+    telephone: BUSINESS.telephone,
+    address: {
+      "@type": "PostalAddress",
+      ...BUSINESS.address,
+    },
+    openingHours: BUSINESS.openingHours,
+    servesCuisine: ["Indonesia", "Catering"],
+  };
+
   return (
-    <html lang="id" suppressHydrationWarning className={montserrat.variable}>
+    <html lang="id" suppressHydrationWarning className={plusJakartaSans.variable}>
       <body className="font-sans min-h-screen">
         <ThemeProvider
           attribute="class"
@@ -46,7 +67,11 @@ export default function RootLayout({
           disableTransitionOnChange={false}
         >
           {children}
-          <FloatingNavbar />
+          <Analytics />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+          />
         </ThemeProvider>
       </body>
     </html>

@@ -9,9 +9,6 @@ export interface MenuItem {
     filterCategory: 'makanan' | 'minuman' | 'jajanan';
 }
 
-// Placeholder image for items without photos yet
-const PH = "/images/PH-Food.png";
-
 export const MENU_ITEMS: MenuItem[] = [
     // ── Existing items (with real images) ──────────────────────
     {
@@ -180,6 +177,16 @@ export const MENU_ITEMS: MenuItem[] = [
         image: "/images/ayam-canton.jpg",
         description: "Ayam bumbu Canton masak saus tiram dengan sayuran segar, jamur, dan saus wok smoky khas oriental.",
         category: "Oriental",
+        filterCategory: "makanan",
+    },
+    {
+        id: 25,
+        name: "Ayam Bakar Bumbu Rujak",
+        price: "Harga dikonfirmasi",
+        tag: "Menu pilihan",
+        image: "/images/chicken.jpg",
+        description: "Ayam bakar berbumbu rujak dengan rasa manis, gurih, dan pedas, disajikan bersama lalapan.",
+        category: "Masakan Jawa",
         filterCategory: "makanan",
     },
 

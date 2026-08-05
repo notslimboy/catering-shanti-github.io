@@ -6,7 +6,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-montserrat);
+  --font-sans: var(--font-plus-jakarta-sans);
   --color-ring: var(--ring);
   --color-input: var(--input);
   --color-border: var(--border);
@@ -51,7 +51,7 @@
   --border: oklch(0.91 0 0);
   --input: oklch(0.91 0 0);
   --ring: oklch(0.50 0.084 162);
-  --radius: 0.625rem;
+  --radius: 0.75rem;
 }
 
 .dark {
@@ -86,5 +86,11 @@
 
   html {
     @apply scroll-smooth;
+  }
+}
+
+@layer components {
+  .order-input {
+    @apply w-full rounded-xl border border-input bg-background px-3.5 py-2.5 text-sm text-foreground outline-none transition placeholder:text-muted-foreground focus:border-emerald-700 focus:ring-2 focus:ring-emerald-700/15 dark:focus:border-emerald-400;
   }
 }

@@ -1,92 +1,43 @@
-"use client";
-
-import { motion } from "framer-motion";
-import { MapPin, Clock, ExternalLink } from "lucide-react";
+import { Clock, ExternalLink, MapPin, MessageCircle } from "lucide-react";
+import { WA_URL } from "@/constants/config";
 
 const MAPS_URL = "https://maps.app.goo.gl/L1ep6K4oL1X7Kffv5";
-const ADDRESS = "Jl. Bhaskara III No.38, Kalisari, Kec. Mulyorejo, Surabaya, Jawa Timur 60112";
-
-const JAM_BUKA = [
-    { hari: "Senin – Jumat", jam: "08.00 – 21.00" },
-    { hari: "Sabtu & Minggu", jam: "08.00 – 21.00" },
-];
+const ADDRESS = "Jl. Bhaskara III No. 38, Kalisari, Kec. Mulyorejo, Surabaya, Jawa Timur 60112";
 
 export function MapSection() {
-    return (
-        <section className="px-4 pb-8 max-w-6xl mx-auto">
-            <motion.div
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.5 }}
-                className="rounded-3xl overflow-hidden border border-border bg-card grid grid-cols-1 md:grid-cols-2"
-            >
-                {/* LEFT: Info */}
-                <div className="p-7 flex flex-col gap-5 justify-center">
-                    <div>
-                        <div className="flex items-center gap-2 mb-1">
-                            <MapPin className="w-4 h-4 text-emerald-500" />
-                            <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest">
-                                Lokasi Kami
-                            </span>
-                        </div>
-                        <h2 className="text-xl font-bold tracking-tight text-foreground mt-1">
-                            Shanti Catering Surabaya
-                        </h2>
-                        <p className="text-sm text-muted-foreground mt-1 leading-relaxed">
-                            Kami berlokasi di kawasan Mulyorejo, Surabaya Timur — mudah diakses dan siap melayani
-                            pesanan untuk seluruh wilayah Surabaya dan sekitarnya.
-                        </p>
-                    </div>
+  return (
+    <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-24 lg:px-8">
+      <div className="grid overflow-hidden rounded-2xl border border-border bg-card md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
+        <div className="p-6 sm:p-8 md:p-10">
+          <p className="text-sm font-bold text-emerald-700 dark:text-emerald-300">Lokasi & kontak</p>
+          <h2 className="mt-2 text-3xl font-bold tracking-[-0.04em] text-foreground">Temui kami di Mulyorejo</h2>
+          <p className="mt-3 max-w-md text-base leading-7 text-muted-foreground">Silakan hubungi kami untuk membicarakan kebutuhan acara sebelum memesan.</p>
 
-                    {/* Address */}
-                    <div className="flex items-start gap-2.5">
-                        <MapPin className="w-4 h-4 text-muted-foreground shrink-0 mt-0.5" />
-                        <p className="text-sm text-foreground/80 leading-relaxed">{ADDRESS}</p>
-                    </div>
+          <div className="mt-8 space-y-5 text-sm">
+            <div className="flex items-start gap-3">
+              <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-emerald-700 dark:text-emerald-300" aria-hidden="true" />
+              <p className="leading-6 text-foreground">{ADDRESS}</p>
+            </div>
+            <div className="flex items-start gap-3">
+              <Clock className="mt-0.5 h-5 w-5 shrink-0 text-emerald-700 dark:text-emerald-300" aria-hidden="true" />
+              <div className="leading-6 text-foreground">
+                <p>Senin sampai Jumat: 08.00-21.00</p>
+                <p>Sabtu dan Minggu: 08.00-21.00</p>
+              </div>
+            </div>
+          </div>
 
-                    {/* Jam Buka */}
-                    <div className="flex flex-col gap-2">
-                        <div className="flex items-center gap-2">
-                            <Clock className="w-4 h-4 text-muted-foreground" />
-                            <span className="text-sm font-semibold text-foreground">Jam Operasional</span>
-                        </div>
-                        <div className="ml-6 flex flex-col gap-1">
-                            {JAM_BUKA.map(({ hari, jam }) => (
-                                <div key={hari} className="flex items-center justify-between text-sm">
-                                    <span className="text-muted-foreground">{hari}</span>
-                                    <span className="font-semibold text-foreground tabular-nums">{jam}</span>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* CTA */}
-                    <motion.a
-                        href={MAPS_URL}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        whileTap={{ scale: 0.95 }}
-                        whileHover={{ scale: 1.02 }}
-                        className="inline-flex items-center gap-2 self-start px-4 py-2.5 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold transition-colors"
-                    >
-                        <ExternalLink className="w-4 h-4" />
-                        Buka di Google Maps
-                    </motion.a>
-                </div>
-
-                {/* RIGHT: Maps Embed */}
-                <div className="relative h-64 md:h-auto min-h-[280px]">
-                    <iframe
-                        title="Lokasi Shanti Catering"
-                        src={`https://maps.google.com/maps?q=${encodeURIComponent(ADDRESS)}&output=embed&hl=id&z=16`}
-                        className="w-full h-full border-0"
-                        loading="lazy"
-                        referrerPolicy="no-referrer-when-downgrade"
-                        allowFullScreen
-                    />
-                </div>
-            </motion.div>
-        </section>
-    );
+          <a href={MAPS_URL} target="_blank" rel="noopener noreferrer" className="mt-8 inline-flex h-11 items-center gap-2 rounded-xl bg-emerald-700 px-4 text-sm font-bold text-white transition hover:bg-emerald-800 active:translate-y-px">
+            <ExternalLink className="h-4 w-4" aria-hidden="true" /> Buka di Google Maps
+          </a>
+          <a href={WA_URL} target="_blank" rel="noopener noreferrer" className="mt-3 inline-flex h-11 items-center gap-2 rounded-xl border border-emerald-700/25 px-4 text-sm font-bold text-emerald-800 transition hover:bg-emerald-50 dark:text-emerald-200 dark:hover:bg-emerald-950/40">
+            <MessageCircle className="h-4 w-4" aria-hidden="true" /> Hubungi via WhatsApp
+          </a>
+        </div>
+        <div className="relative min-h-[320px] border-t border-border md:border-l md:border-t-0">
+          <iframe title="Lokasi Shanti Catering di Mulyorejo" src={`https://maps.google.com/maps?q=${encodeURIComponent(ADDRESS)}&output=embed&hl=id&z=16`} className="absolute inset-0 h-full w-full border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" allowFullScreen />
+        </div>
+      </div>
+    </section>
+  );
 }
