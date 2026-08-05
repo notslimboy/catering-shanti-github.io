@@ -1,83 +1,223 @@
-import { BentoGrid } from "@/components/BentoGrid";
-import { HeroCard } from "@/components/HeroCard";
-import { MenuCard } from "@/components/MenuCard";
-import { StatsCard } from "@/components/StatsCard";
-import { TestimoniCard } from "@/components/TestimoniCard";
-import { QuickOrderForm } from "@/components/QuickOrderForm";
+import Image from "next/image";
+import Link from "next/link";
+import { Suspense } from "react";
+import { ArrowRight, CalendarDays, MapPin, MessageCircle, Truck, UtensilsCrossed } from "lucide-react";
+import { CustomerLogoWall } from "@/components/CustomerLogoWall";
+import { EventPackageGuideCard } from "@/components/EventPackageGuideCard";
+import { FaqSection } from "@/components/FaqSection";
+import { GalleryMasonry } from "@/components/GalleryMasonry";
+import { GoogleReviewsSection } from "@/components/GoogleReviewsSection";
 import { MapSection } from "@/components/MapSection";
-import { MENU_ITEMS } from "@/constants/menu";
-import { TESTIMONIALS } from "@/constants/testimonials";
-import { WA_NUMBER } from "@/constants/config";
+import { MenuCard } from "@/components/MenuCard";
+import { QuickOrderForm } from "@/components/QuickOrderForm";
+import { SiteHeader } from "@/components/SiteHeader";
+import { TrustDocumentsSection } from "@/components/TrustDocumentsSection";
+import { WhatsAppCta } from "@/components/WhatsAppCta";
 import { WhatsAppBrandIcon } from "@/components/icons/WhatsAppIcon";
+import { getActiveMenuItems, getActivePackages } from "@/lib/catalog";
+import { getCatalogImageUrl } from "@/lib/catalog-image";
+import { EVENT_PACKAGE_GUIDES } from "@/lib/event-package-guides";
+import { GOOGLE_REVIEWS, GOOGLE_REVIEW_SUMMARY, GALLERY_ITEMS } from "@/lib/public-content";
+import { hasGoogleReviewsSnapshotEnabled } from "@/lib/server/config";
+import { getPublishedGoogleReviewsSnapshot } from "@/lib/server/google-review-snapshot-entry";
 
-export default function HomePage() {
-  const featuredMenus = MENU_ITEMS.slice(0, 4);
+export default async function HomePage() {
+  const [menuItems, packages] = await Promise.all([
+    getActiveMenuItems(),
+    getActivePackages(),
+  ]);
+  const snapshotEnabled = hasGoogleReviewsSnapshotEnabled();
+  const googleReviewsSnapshot = snapshotEnabled
+    ? await getPublishedGoogleReviewsSnapshot()
+    : { state: "fresh_setup" as const, snapshot: null, profileUrl: null };
+  const useStaticReviewFallback = !snapshotEnabled;
+  const reviewSnapshot = googleReviewsSnapshot.snapshot;
+  const reviewSummary = reviewSnapshot?.summary ?? {
+    rating: "—",
+    ratingValue: null,
+    reviewCount: 0,
+    observedAt: "Belum tersedia",
+    profileUrl: googleReviewsSnapshot.profileUrl ?? GOOGLE_REVIEW_SUMMARY.profileUrl,
+  };
+  const featuredMenus = menuItems.filter((item) => item.featured).slice(0, 2);
 
   return (
-    <main className="min-h-screen bg-background">
-      {/* ── Bento Grid ─────────────────────────────────────────
-       *
-       * Desktop (lg, 4-col):
-       * ┌──────────────────┬──────────────┬──────────────┐
-       * │                  │  Testimoni   │  Testimoni   │
-       * │    HeroCard      │    Irma      │    Dwi       │
-       * │    (2 × 2)       ├──────────────┴──────────────┤
-       * │                  │    StatsCard (col-span-2)   │
-       * ├──────────────────┴──────────────┬──────────────┼──────────────┐
-       * │    QuickOrderForm (col-span-2)  │ MenuCard[0] │ MenuCard[1]  │
-       * └─────────────────────────────────┴─────────────┴──────────────┘
-       ─────────────────────────────────────────────────────── */}
-      <section className="px-4 pt-8 pb-4 max-w-6xl mx-auto">
-        <BentoGrid>
-          {/* Row 1–2 col 1–2 (desktop): Hero */}
-          <HeroCard />
+    <main className="min-h-[100dvh] bg-background">
+      <SiteHeader />
 
-          {/* Row 1 col 3–4 (desktop): 2 Testimonials */}
-          {TESTIMONIALS.map((t) => (
-            <TestimoniCard key={t.id} item={t} />
-          ))}
-
-          {/* Row 2 col 3–4 (desktop): StatsCard spans both cols */}
-          <StatsCard />
-
-          {/* Row 3 col 1–2 (desktop): Quick Order Form */}
-          <QuickOrderForm />
-
-          {/* Row 3 col 3–4 (desktop): Featured Menu Cards */}
-          {featuredMenus.map((item) => (
-            <MenuCard key={item.id} item={item} />
-          ))}
-        </BentoGrid>
-      </section>
-
-      {/* ── CTA Banner ── */}
-      <section className="px-4 py-4 max-w-6xl mx-auto">
-        <div className="rounded-3xl bg-emerald-950 border border-emerald-900/40 p-7 flex flex-col sm:flex-row items-center justify-between gap-5">
-          <div>
-            <h2 className="text-2xl font-bold text-white tracking-tight">
-              Siap untuk acara Anda berikutnya?
-            </h2>
-            <p className="text-emerald-300/70 mt-1 font-medium">
-              Kami melayani corporate, pernikahan, ulang tahun, dan gathering.
-            </p>
+      <section className="mx-auto grid max-w-7xl gap-8 px-4 pb-16 pt-10 sm:px-6 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:items-center md:gap-12 md:pb-24 md:pt-16 lg:px-8">
+        <div className="max-w-xl">
+          <p className="text-sm font-bold text-emerald-700 dark:text-emerald-300">Shanti Catering Surabaya</p>
+          <h1 className="mt-3 text-4xl font-bold tracking-[-0.045em] text-foreground sm:text-5xl lg:text-6xl lg:leading-[1.04]">Catering Surabaya untuk acara yang berkesan</h1>
+          <p className="mt-5 max-w-lg text-base leading-7 text-muted-foreground sm:text-lg">Pilih kebutuhan acara atau tanyakan menu harian. Kami bantu siapkan katering yang sesuai.</p>
+          <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+            <Link href="/menu#jenis-acara" className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-emerald-700 px-5 text-sm font-bold text-white transition hover:bg-emerald-800 active:translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2">
+              Lihat paket <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
+            <WhatsAppCta placement="hero" className="inline-flex h-12 items-center justify-center gap-2 rounded-xl border border-emerald-700/25 bg-transparent px-5 text-sm font-bold text-emerald-800 transition hover:bg-emerald-50 active:translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 dark:text-emerald-200 dark:hover:bg-emerald-950/40">
+              <WhatsAppBrandIcon className="h-4 w-4" /> Pesan via WhatsApp
+            </WhatsAppCta>
           </div>
-          <a
-            href={`https://wa.me/${WA_NUMBER}?text=Halo%20Shanti%20Catering,%20saya%20ingin%20konsultasi%20menu%20custom%20untuk%20acara%20saya.%0A%0A*Estimasi%20jumlah%20tamu:*%20[isi%20di%20sini]%0A*Tanggal%20acara:*%20[isi%20di%20sini]%0A*Budget%20per%20orang:*%20[isi%20di%20sini]%0A*Catatan:*%20[isi%20di%20sini]%0A%0AMohon%20info%20ketersediaannya%20ya,%20terima%20kasih!`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="shrink-0 flex items-center gap-2 px-6 py-3 bg-[#25D366] hover:bg-[#20bd5a] text-white font-semibold rounded-2xl transition-colors whitespace-nowrap"
-          >
-            <WhatsAppBrandIcon className="w-5 h-5 fill-white border-white" />
-            Konsultasi via WA
-          </a>
+        </div>
+        <div className="relative min-h-[340px] overflow-hidden rounded-2xl bg-emerald-950 sm:min-h-[430px]">
+          <Image src="/images/nasi-kotak.jpg" alt="Nasi kotak dari Shanti Catering" fill priority sizes="(max-width: 767px) 100vw, 55vw" className="object-cover" />
         </div>
       </section>
 
-      {/* ── Google Maps & Lokasi ── */}
+      <CustomerLogoWall />
+
+      <section className="border-b border-border bg-muted/45">
+        <div className="mx-auto grid max-w-7xl gap-0 px-4 sm:px-6 md:grid-cols-3 lg:px-8">
+          <div className="border-b border-border py-7 md:border-b-0 md:border-r md:pr-8">
+            <CalendarDays className="h-5 w-5 text-emerald-700 dark:text-emerald-300" aria-hidden="true" />
+            <h2 className="mt-3 text-xl font-bold tracking-tight text-foreground">Acara keluarga</h2>
+            <p className="mt-2 max-w-md text-sm leading-6 text-muted-foreground">Pernikahan, aqiqah, khitanan, ulang tahun, dan syukuran.</p>
+          </div>
+          <div className="border-b border-border py-7 md:border-b-0 md:border-r md:px-8">
+            <UtensilsCrossed className="h-5 w-5 text-emerald-700 dark:text-emerald-300" aria-hidden="true" />
+            <h2 className="mt-3 text-xl font-bold tracking-tight text-foreground">Kantor dan komunitas</h2>
+            <p className="mt-2 max-w-md text-sm leading-6 text-muted-foreground">Rapat, pelatihan, seminar, coffee break, dan makan bersama.</p>
+          </div>
+          <div className="py-7 md:pl-8">
+            <Truck className="h-5 w-5 text-emerald-700 dark:text-emerald-300" aria-hidden="true" />
+            <h2 className="mt-3 text-xl font-bold tracking-tight text-foreground">Catering harian</h2>
+            <p className="mt-2 max-w-md text-sm leading-6 text-muted-foreground">Menu berubah setiap hari untuk rumah dan kantor.</p>
+            <Link href="/catering-harian" className="mt-4 inline-flex min-h-11 items-center gap-2 text-sm font-bold text-emerald-800 transition hover:text-emerald-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 dark:text-emerald-300">
+              Lihat catering harian <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-24 lg:px-8">
+        <div className="max-w-2xl">
+          <p className="text-sm font-bold text-emerald-700 dark:text-emerald-300">Jenis acara</p>
+          <h2 className="mt-2 text-3xl font-bold tracking-[-0.04em] text-foreground sm:text-4xl">Catering yang sesuai acara Anda</h2>
+          <p className="mt-3 text-base leading-7 text-muted-foreground">Pilih momen Anda dulu. Kami bantu susun menu dan jumlah porsi yang tepat.</p>
+        </div>
+        <div className="mt-8 grid items-start gap-4 md:grid-cols-3">
+          {EVENT_PACKAGE_GUIDES.slice(0, 3).map((guide) => (
+            <EventPackageGuideCard key={guide.slug} guide={guide} />
+          ))}
+        </div>
+        <Link href="/menu#jenis-acara" className="mt-7 inline-flex min-h-11 items-center gap-2 text-sm font-bold text-emerald-800 transition hover:text-emerald-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 dark:text-emerald-300">
+          Lihat semua jenis acara <ArrowRight className="h-4 w-4" aria-hidden="true" />
+        </Link>
+      </section>
+
+      {featuredMenus.length > 0 && (
+        <section className="border-y border-border bg-muted/45 py-16 md:py-24">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="max-w-2xl">
+              <p className="text-sm font-bold text-emerald-700 dark:text-emerald-300">Menu pilihan</p>
+              <h2 className="mt-2 text-3xl font-bold tracking-[-0.04em] text-foreground sm:text-4xl">Mulai dari hidangan yang Anda suka</h2>
+              <p className="mt-3 text-base leading-7 text-muted-foreground">Lihat menu satuan untuk menjadi awal susunan acara Anda. Harga terbaru dapat ditanyakan melalui WhatsApp.</p>
+            </div>
+            <div className="mt-8 grid gap-4 md:grid-cols-2">
+              {featuredMenus.map((item) => <MenuCard key={item.id} item={item} image={getCatalogImageUrl(item.imagePath, "/images/nasi-kotak.jpg")} />)}
+            </div>
+            <Link href="/menu#menu-satuan" className="mt-7 inline-flex min-h-11 items-center gap-2 text-sm font-bold text-emerald-800 transition hover:text-emerald-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 dark:text-emerald-300">
+              Lihat menu satuan <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
+          </div>
+        </section>
+      )}
+
+      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-24 lg:px-8">
+        <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+          <div className="max-w-2xl">
+            <p className="text-sm font-bold text-emerald-700 dark:text-emerald-300">Galeri acara</p>
+            <h2 className="mt-2 text-3xl font-bold tracking-[-0.04em] text-foreground sm:text-4xl">Ruang untuk cerita setiap acara</h2>
+            <p className="mt-3 text-base leading-7 text-muted-foreground">Dokumentasi acara akan ditambahkan bertahap seiring perjalanan Shanti Catering.</p>
+          </div>
+          <Link href="/galeri" className="inline-flex min-h-11 shrink-0 items-center gap-2 text-sm font-bold text-emerald-800 transition hover:text-emerald-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 dark:text-emerald-300">
+            Lihat galeri acara <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          </Link>
+        </div>
+        <div className="mt-8">
+          <GalleryMasonry id="galeri-home" variant="teaser" items={GALLERY_ITEMS.slice(0, 4)} />
+        </div>
+      </section>
+
+      <section className="border-y border-border bg-muted/45 py-16 md:py-24">
+        <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:items-center md:gap-12 lg:px-8">
+          <div className="relative min-h-[260px] overflow-hidden rounded-2xl bg-emerald-950 sm:min-h-[340px]">
+            <Image src="/images/nasi-kotak.jpg" alt="Nasi kotak untuk kebutuhan catering harian" fill sizes="(max-width: 767px) 100vw, 45vw" className="object-cover" />
+          </div>
+          <div className="max-w-xl">
+            <p className="text-sm font-bold text-emerald-700 dark:text-emerald-300">Catering harian</p>
+            <h2 className="mt-2 text-3xl font-bold tracking-[-0.04em] text-foreground sm:text-4xl">Menu harian untuk rumah dan kantor</h2>
+            <p className="mt-3 text-base leading-7 text-muted-foreground">Menu berganti setiap hari dan diantar kurir. Tanyakan pilihan serta ketersediaannya lewat WhatsApp.</p>
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+              <Link href="/catering-harian" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-emerald-700 px-5 text-sm font-bold text-white transition hover:bg-emerald-800 active:translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2">
+                Lihat catering harian <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
+              <WhatsAppCta placement="daily_catering_home" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-emerald-700/25 px-5 text-sm font-bold text-emerald-800 transition hover:bg-emerald-50 active:translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 dark:text-emerald-300 dark:hover:bg-emerald-950/40">
+                <WhatsAppBrandIcon className="h-4 w-4" /> Tanya menu hari ini
+              </WhatsAppCta>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-24 lg:px-8">
+        <div className="max-w-2xl">
+          <h2 className="text-3xl font-bold tracking-[-0.04em] text-foreground sm:text-4xl">Cara pesan yang sederhana</h2>
+          <p className="mt-3 text-base leading-7 text-muted-foreground">Pilih kebutuhan Anda, isi data acara, lalu lanjutkan percakapan di WhatsApp.</p>
+        </div>
+        <div className="mt-8 grid overflow-hidden rounded-2xl border border-border md:grid-cols-[0.85fr_1.15fr_0.85fr]">
+          <div className="border-b border-border bg-muted/55 p-6 md:border-b-0 md:border-r">
+            <p className="text-lg font-bold text-foreground">Pilih kebutuhan</p>
+            <p className="mt-2 text-sm leading-6 text-muted-foreground">Tentukan paket acara, menu satuan, atau kebutuhan custom.</p>
+          </div>
+          <div className="border-b border-border p-6 md:border-b-0 md:border-r">
+            <p className="text-lg font-bold text-foreground">Isi detail acara</p>
+            <p className="mt-2 text-sm leading-6 text-muted-foreground">Tulis jumlah porsi, tanggal, alamat, dan catatan yang diperlukan.</p>
+          </div>
+          <div className="bg-emerald-700 p-6 text-white">
+            <p className="text-lg font-bold">Konfirmasi di WhatsApp</p>
+            <p className="mt-2 text-sm leading-6 text-emerald-100">Setelah pesanan tersimpan, lanjutkan detailnya bersama kami.</p>
+          </div>
+        </div>
+      </section>
+
+      <GoogleReviewsSection
+        reviews={useStaticReviewFallback ? GOOGLE_REVIEWS : reviewSnapshot?.reviews ?? []}
+        summary={useStaticReviewFallback ? GOOGLE_REVIEW_SUMMARY : reviewSummary}
+        available={useStaticReviewFallback || Boolean(reviewSnapshot)}
+      />
+      <TrustDocumentsSection />
+      <FaqSection />
+
+      <section className="bg-muted/45 py-16 md:py-24">
+        <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[minmax(0,0.78fr)_minmax(0,1.22fr)] lg:px-8">
+          <div className="flex flex-col justify-between rounded-2xl bg-emerald-950 p-7 text-white sm:p-9">
+            <div>
+              <MessageCircle className="h-6 w-6 text-emerald-300" aria-hidden="true" />
+              <h2 className="mt-5 text-3xl font-bold tracking-[-0.04em]">Sudah tahu kebutuhan acara Anda?</h2>
+              <p className="mt-3 leading-7 text-emerald-100/75">Isi formulir di samping. Setelah pesanan tersimpan, Anda akan dibawa ke WhatsApp untuk melanjutkan detailnya.</p>
+            </div>
+            <p className="mt-10 inline-flex items-start gap-2 text-sm text-emerald-100/75"><MapPin className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" /> Mulyorejo, Surabaya</p>
+          </div>
+          <Suspense fallback={<div className="min-h-[620px] rounded-2xl border border-border bg-card" aria-busy="true" />}>
+            <QuickOrderForm menuItems={menuItems} packages={packages} />
+          </Suspense>
+        </div>
+      </section>
+
       <MapSection />
 
-      {/* Bottom padding for floating navbar */}
-      <div className="h-24" />
+      <footer className="border-t border-border">
+        <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-8 text-sm text-muted-foreground sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
+          <p>Shanti Catering. Mulyorejo, Surabaya.</p>
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+            <Link href="/menu" className="font-semibold text-foreground hover:text-emerald-700 dark:hover:text-emerald-300">Paket &amp; Menu</Link>
+            <Link href="/galeri" className="font-semibold text-foreground hover:text-emerald-700 dark:hover:text-emerald-300">Galeri Acara</Link>
+            <Link href="/catering-harian" className="font-semibold text-foreground hover:text-emerald-700 dark:hover:text-emerald-300">Catering Harian</Link>
+            <WhatsAppCta placement="footer" className="font-semibold text-foreground hover:text-emerald-700 dark:hover:text-emerald-300">WhatsApp</WhatsAppCta>
+          </div>
+        </div>
+      </footer>
     </main>
   );
 }
