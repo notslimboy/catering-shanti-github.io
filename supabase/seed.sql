@@ -1,0 +1,2 @@
+-- No Supabase seed data is required.
+-- Menu names, prices, and images are defined in constants/menu.ts and public/images.
