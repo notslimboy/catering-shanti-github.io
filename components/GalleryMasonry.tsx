@@ -66,20 +66,20 @@ export function GalleryMasonry({ items, id = "galeri-acara", variant = "page" }:
 
   const isTeaser = variant === "teaser";
   const gridClassName = isTeaser
-    ? "grid grid-cols-2 auto-rows-[148px] gap-3 min-[480px]:auto-rows-[168px] min-[480px]:gap-4 md:grid-cols-6 md:auto-rows-[136px]"
+    ? "grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-4"
     : "grid grid-cols-2 auto-rows-[148px] gap-3 min-[480px]:auto-rows-[168px] min-[480px]:gap-4 md:grid-cols-6 md:auto-rows-[136px] lg:grid-cols-12 lg:auto-rows-[132px]";
 
   return (
     <>
       {items.length === 0 ? (
         <div id={id} className="flex min-h-48 items-center justify-center rounded-2xl border border-border bg-card px-6 text-center">
-          <p className="max-w-sm text-sm leading-6 text-muted-foreground">Belum ada dokumentasi acara yang ditampilkan.</p>
+          <p className="max-w-sm text-sm leading-6 text-muted-foreground">Contoh sajian akan ditampilkan di sini.</p>
         </div>
       ) : (
         <div id={id} className={gridClassName}>
           {items.map((item) => {
             const isReady = item.status === "ready" && Boolean(item.imageSrc);
-            const itemGridClassName = isTeaser ? (item.teaserGridClassName ?? item.gridClassName) : item.gridClassName;
+            const itemGridClassName = isTeaser ? "aspect-[4/3]" : item.gridClassName;
 
             if (!isReady) {
               return (
@@ -105,7 +105,7 @@ export function GalleryMasonry({ items, id = "galeri-acara", variant = "page" }:
                   src={item.imageSrc!}
                   alt={item.alt}
                   fill
-                  sizes={item.sizes ?? "(max-width: 767px) 50vw, (max-width: 1023px) 34vw, 25vw"}
+                  sizes={isTeaser ? "(max-width: 767px) 50vw, (max-width: 1023px) 33vw, 25vw" : (item.sizes ?? "(max-width: 767px) 50vw, (max-width: 1023px) 34vw, 25vw")}
                   className="object-cover"
                 />
                 <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-zinc-950/70 via-zinc-950/25 to-transparent px-4 pb-3 pt-10 text-sm font-bold text-white opacity-100 transition-opacity duration-200 motion-reduce:transition-none [@media(hover:hover)_and_(pointer:fine)]:opacity-0 [@media(hover:hover)_and_(pointer:fine)]:group-hover:opacity-100 group-focus-visible:opacity-100">

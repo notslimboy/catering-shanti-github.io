@@ -9,6 +9,7 @@ export type GalleryItem = {
   imageSrc: string | null;
   gridClassName: string;
   teaserGridClassName?: string;
+  teaserSizes?: string;
   sizes?: string;
 };
 
@@ -19,6 +20,7 @@ export type CustomerOrganization = {
   logoSrc: string | null;
   darkSurface?: boolean;
   markOnly?: boolean;
+  logoScale?: "large" | "medium" | "largeMark";
 };
 
 export type GoogleReview = {
@@ -49,58 +51,62 @@ export type FaqItem = {
   answer: string;
 };
 
-// Foto di bawah ini adalah ilustrasi sajian sementara. Ganti dengan dokumentasi acara asli saat tersedia.
+// Foto di bawah ini adalah contoh sajian, bukan dokumentasi acara atau foto pelanggan.
 // `gridClassName` menjaga komposisi mosaik tetap seimbang pada layar kecil dan besar.
 export const GALLERY_ITEMS: GalleryItem[] = [
   {
     id: "resepsi-keluarga",
-    title: "Resepsi keluarga",
-    description: "Ilustrasi sajian tumpeng Shanti Catering, bukan dokumentasi resepsi.",
-    alt: "Ilustrasi sajian tumpeng dari Shanti Catering, bukan dokumentasi resepsi keluarga",
+    title: "Contoh sajian tumpeng",
+    description: "Contoh sajian tumpeng Shanti Catering, bukan dokumentasi resepsi.",
+    alt: "Contoh sajian tumpeng dari Shanti Catering, bukan dokumentasi resepsi keluarga",
     status: "ready",
     imageSrc: "/images/tumpeng.jpg",
     gridClassName: "col-span-2 row-span-2 md:col-span-3 md:row-span-3 md:col-start-1 md:row-start-1 lg:col-span-6 lg:row-span-4 lg:col-start-1 lg:row-start-1",
-    teaserGridClassName: "col-span-2 row-span-2 md:col-span-3 md:row-span-3 md:col-start-1 md:row-start-1",
+    teaserGridClassName: "col-span-2 row-span-2 md:col-span-3 md:row-span-2 md:col-start-1 md:row-start-1",
+    teaserSizes: "(max-width: 767px) 100vw, 50vw",
     sizes: "(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 50vw",
   },
   {
     id: "kebutuhan-kantor",
-    title: "Kebutuhan kantor",
-    description: "Ilustrasi coffee break Shanti Catering, bukan dokumentasi acara kantor.",
-    alt: "Ilustrasi coffee break dari Shanti Catering, bukan dokumentasi acara kantor",
+    title: "Contoh coffee break",
+    description: "Contoh coffee break Shanti Catering, bukan dokumentasi acara kantor.",
+    alt: "Contoh coffee break dari Shanti Catering, bukan dokumentasi acara kantor",
     status: "ready",
     imageSrc: "/images/paket-coffe-break.jpg",
     gridClassName: "col-span-1 row-span-1 md:col-span-3 md:row-span-2 md:col-start-4 md:row-start-1 lg:col-span-3 lg:row-span-2 lg:col-start-7 lg:row-start-1",
-    teaserGridClassName: "col-span-1 row-span-1 md:col-span-3 md:row-span-2 md:col-start-4 md:row-start-1",
+    teaserGridClassName: "col-span-1 row-span-1 md:col-span-3 md:row-span-1 md:col-start-4 md:row-start-1",
+    teaserSizes: "(max-width: 767px) 50vw, 50vw",
     sizes: "(max-width: 767px) 50vw, (max-width: 1023px) 50vw, 50vw",
   },
   {
     id: "nasi-kotak",
-    title: "Nasi kotak",
-    description: "Ilustrasi nasi kotak Shanti Catering, bukan dokumentasi pengantaran acara.",
-    alt: "Ilustrasi nasi kotak dari Shanti Catering, bukan dokumentasi pengantaran acara",
+    title: "Contoh nasi kotak",
+    description: "Contoh nasi kotak Shanti Catering, bukan dokumentasi pengantaran acara.",
+    alt: "Contoh nasi kotak dari Shanti Catering, bukan dokumentasi pengantaran acara",
     status: "ready",
     imageSrc: "/images/nasi-kotak.jpg",
     gridClassName: "col-span-1 row-span-1 md:col-span-3 md:row-span-2 md:col-start-4 md:row-start-3 lg:col-span-3 lg:row-span-2 lg:col-start-10 lg:row-start-1",
-    teaserGridClassName: "col-span-1 row-span-1 md:col-span-3 md:row-span-2 md:col-start-4 md:row-start-3",
+    teaserGridClassName: "col-span-1 row-span-1 md:col-span-3 md:row-span-1 md:col-start-4 md:row-start-2",
+    teaserSizes: "(max-width: 767px) 50vw, 50vw",
     sizes: "(max-width: 767px) 50vw, (max-width: 1023px) 50vw, 50vw",
   },
   {
     id: "aqiqah-khitanan",
-    title: "Aqiqah dan khitanan",
-    description: "Ilustrasi nasi liwet Shanti Catering, bukan dokumentasi acara keluarga.",
-    alt: "Ilustrasi nasi liwet dari Shanti Catering, bukan dokumentasi aqiqah atau khitanan",
+    title: "Contoh nasi liwet",
+    description: "Contoh nasi liwet Shanti Catering, bukan dokumentasi acara keluarga.",
+    alt: "Contoh nasi liwet dari Shanti Catering, bukan dokumentasi aqiqah atau khitanan",
     status: "ready",
     imageSrc: "/images/nasi-liwet-solo.jpg",
     gridClassName: "col-span-1 row-span-1 md:col-span-2 md:row-span-2 md:col-start-1 md:row-start-4 lg:col-span-3 lg:row-span-2 lg:col-start-7 lg:row-start-3",
-    teaserGridClassName: "col-span-1 row-span-1 md:col-span-2 md:row-span-2 md:col-start-1 md:row-start-4",
+    teaserGridClassName: "col-span-2 row-span-1 md:col-span-6 md:row-span-1 md:col-start-1 md:row-start-3",
+    teaserSizes: "100vw",
     sizes: "(max-width: 767px) 50vw, (max-width: 1023px) 34vw, 25vw",
   },
   {
     id: "prasmanan-acara",
-    title: "Prasmanan acara",
-    description: "Ilustrasi sajian rawon Shanti Catering, bukan dokumentasi penataan prasmanan.",
-    alt: "Ilustrasi sajian rawon dari Shanti Catering, bukan dokumentasi prasmanan acara",
+    title: "Contoh sajian prasmanan",
+    description: "Contoh sajian rawon Shanti Catering, bukan dokumentasi penataan prasmanan.",
+    alt: "Contoh sajian rawon dari Shanti Catering, bukan dokumentasi prasmanan acara",
     status: "ready",
     imageSrc: "/images/rawon.jpg",
     gridClassName: "col-span-1 row-span-1 md:col-span-2 md:row-span-2 md:col-start-3 md:row-start-4 lg:col-span-3 lg:row-span-2 lg:col-start-10 lg:row-start-3",
@@ -109,9 +115,9 @@ export const GALLERY_ITEMS: GalleryItem[] = [
   },
   {
     id: "tumpeng-syukuran",
-    title: "Tumpeng dan syukuran",
-    description: "Ilustrasi lontong cap go meh Shanti Catering, bukan dokumentasi syukuran.",
-    alt: "Ilustrasi lontong cap go meh dari Shanti Catering, bukan dokumentasi tumpeng dan syukuran",
+    title: "Contoh menu perayaan",
+    description: "Contoh lontong cap go meh Shanti Catering, bukan dokumentasi syukuran.",
+    alt: "Contoh lontong cap go meh dari Shanti Catering, bukan dokumentasi tumpeng dan syukuran",
     status: "ready",
     imageSrc: "/images/lontong-cap-go-meh.jpg",
     gridClassName: "col-span-2 row-span-2 md:col-span-2 md:row-span-2 md:col-start-5 md:row-start-4 lg:col-span-4 lg:row-span-3 lg:col-start-1 lg:row-start-5",
@@ -120,9 +126,9 @@ export const GALLERY_ITEMS: GalleryItem[] = [
   },
   {
     id: "coffee-break",
-    title: "Coffee break",
-    description: "Ilustrasi banana cake Shanti Catering, bukan dokumentasi coffee break.",
-    alt: "Ilustrasi banana cake dari Shanti Catering, bukan dokumentasi coffee break acara",
+    title: "Contoh kue coffee break",
+    description: "Contoh banana cake Shanti Catering, bukan dokumentasi coffee break.",
+    alt: "Contoh banana cake dari Shanti Catering, bukan dokumentasi coffee break acara",
     status: "ready",
     imageSrc: "/images/banana-cake.jpg",
     gridClassName: "col-span-1 row-span-1 md:col-span-3 md:row-span-2 md:col-start-1 md:row-start-6 lg:col-span-4 lg:row-span-3 lg:col-start-5 lg:row-start-5",
@@ -131,9 +137,9 @@ export const GALLERY_ITEMS: GalleryItem[] = [
   },
   {
     id: "catering-harian",
-    title: "Catering harian",
-    description: "Ilustrasi nasi jagung Shanti Catering, bukan dokumentasi katering harian.",
-    alt: "Ilustrasi nasi jagung dari Shanti Catering, bukan dokumentasi katering harian",
+    title: "Contoh menu harian",
+    description: "Contoh nasi jagung Shanti Catering, bukan dokumentasi catering harian.",
+    alt: "Contoh nasi jagung dari Shanti Catering, bukan dokumentasi catering harian",
     status: "ready",
     imageSrc: "/images/nasi-jagung.jpg",
     gridClassName: "col-span-1 row-span-1 md:col-span-3 md:row-span-2 md:col-start-4 md:row-start-6 lg:col-span-4 lg:row-span-3 lg:col-start-9 lg:row-start-5",
@@ -142,9 +148,9 @@ export const GALLERY_ITEMS: GalleryItem[] = [
   },
   {
     id: "makan-bersama",
-    title: "Makan bersama",
-    description: "Ilustrasi gado-gado Shanti Catering, bukan dokumentasi makan bersama.",
-    alt: "Ilustrasi gado-gado dari Shanti Catering, bukan dokumentasi acara makan bersama",
+    title: "Contoh gado-gado",
+    description: "Contoh gado-gado Shanti Catering, bukan dokumentasi makan bersama.",
+    alt: "Contoh gado-gado dari Shanti Catering, bukan dokumentasi acara makan bersama",
     status: "ready",
     imageSrc: "/images/gado-gado.jpg",
     gridClassName: "col-span-1 row-span-1 md:col-span-3 md:row-span-2 md:col-start-1 md:row-start-8 lg:col-span-6 lg:row-span-3 lg:col-start-1 lg:row-start-8",
@@ -153,9 +159,9 @@ export const GALLERY_ITEMS: GalleryItem[] = [
   },
   {
     id: "menu-custom",
-    title: "Menu custom",
-    description: "Ilustrasi menu Arab Shanti Catering, bukan dokumentasi menu custom acara.",
-    alt: "Ilustrasi menu Arab dari Shanti Catering, bukan dokumentasi menu custom acara",
+    title: "Contoh menu Arab",
+    description: "Contoh menu Arab Shanti Catering, bukan dokumentasi menu custom acara.",
+    alt: "Contoh menu Arab dari Shanti Catering, bukan dokumentasi menu custom acara",
     status: "ready",
     imageSrc: "/images/menu-arab.jpg",
     gridClassName: "col-span-1 row-span-1 md:col-span-3 md:row-span-2 md:col-start-4 md:row-start-8 lg:col-span-6 lg:row-span-3 lg:col-start-7 lg:row-start-8",
@@ -169,43 +175,49 @@ export const CUSTOMER_ORGANIZATIONS: CustomerOrganization[] = [
     id: "its",
     name: "Institut Teknologi Sepuluh Nopember",
     wordmark: "ITS",
-    logoSrc: "/images/customers/its.svg",
+    logoSrc: "/images/customers/its-wordmark.png",
+    logoScale: "large",
   },
   {
     id: "pens",
     name: "Politeknik Elektronika Negeri Surabaya",
     wordmark: "PENS",
     logoSrc: "/images/customers/pens.png",
+    logoScale: "large",
   },
   {
     id: "unair",
     name: "Universitas Airlangga",
     wordmark: "UNAIR",
     logoSrc: "/images/customers/unair.png",
+    logoScale: "large",
   },
   {
     id: "bkkbn",
     name: "Badan Kependudukan dan Keluarga Berencana Nasional",
     wordmark: "BKKBN",
     logoSrc: "/images/customers/bkkbn-logo.png",
+    logoScale: "medium",
   },
   {
-    id: "koarmada-ii",
-    name: "Koarmada II",
-    wordmark: "Koarmada II",
-    logoSrc: "/images/customers/koarmada-ii.jpg",
+    id: "askrindo",
+    name: "Askrindo",
+    wordmark: "ASKRINDO Insurance / A member of IFG",
+    logoSrc: "/images/customers/askrindo.png",
   },
   {
     id: "pemkot-surabaya",
     name: "Pemerintah Kota Surabaya",
     wordmark: "Surabaya City of Heroes",
     logoSrc: "/images/customers/surabaya-city-of-heroes.png",
+    logoScale: "large",
   },
   {
     id: "al-azhar-surabaya",
     name: "Al Azhar Surabaya",
     wordmark: "Al Azhar Surabaya",
     logoSrc: "/images/customers/al-azhar.png",
+    logoScale: "large",
   },
   {
     id: "sman-3-surabaya",
@@ -213,18 +225,21 @@ export const CUSTOMER_ORGANIZATIONS: CustomerOrganization[] = [
     wordmark: "SMAN 3 Surabaya",
     logoSrc: "/images/customers/sman-3-surabaya-emblem.png",
     markOnly: true,
+    logoScale: "largeMark",
   },
   {
     id: "smpn-18-surabaya",
     name: "SMPN 18 Surabaya",
     wordmark: "SMPN 18 Surabaya",
     logoSrc: "/images/customers/smpn-18-surabaya.png",
+    logoScale: "large",
   },
   {
     id: "solomon-indo-global",
     name: "PT Solomon Indo Global",
     wordmark: "Solomon Indo Global",
     logoSrc: "/images/customers/solomon.webp",
+    logoScale: "large",
   },
 ];
 

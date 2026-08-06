@@ -68,7 +68,7 @@ export function SiteHeader() {
 
         <div className="flex items-center gap-1.5 sm:gap-2">
           <Link
-            href="/#pesan"
+            href="/pesan"
             onClick={() => setIsMenuOpen(false)}
             className="inline-flex h-11 items-center justify-center rounded-xl bg-emerald-700 px-3 text-sm font-bold text-white shadow-sm shadow-emerald-950/15 transition hover:bg-emerald-800 active:translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2 sm:px-4"
           >

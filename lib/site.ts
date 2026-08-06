@@ -3,7 +3,7 @@ import { WA_NUMBER } from "@/constants/config";
 export const BUSINESS = {
   name: "Shanti Catering",
   description:
-    "Catering Surabaya untuk nasi kotak, prasmanan, dan paket acara keluarga maupun kantor.",
+    "Shanti Catering di Mulyorejo, Surabaya, menyediakan nasi kotak, prasmanan, tumpeng, catering harian, serta menu untuk acara keluarga dan kantor.",
   address: {
     streetAddress: "Jl. Bhaskara III No.38, Kalisari",
     addressLocality: "Surabaya",

@@ -48,8 +48,8 @@ export default async function HomePage() {
       <section className="mx-auto grid max-w-7xl gap-8 px-4 pb-16 pt-10 sm:px-6 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:items-center md:gap-12 md:pb-24 md:pt-16 lg:px-8">
         <div className="max-w-xl">
           <p className="text-sm font-bold text-emerald-700 dark:text-emerald-300">Shanti Catering Surabaya</p>
-          <h1 className="mt-3 text-4xl font-bold tracking-[-0.045em] text-foreground sm:text-5xl lg:text-6xl lg:leading-[1.04]">Catering Surabaya untuk acara yang berkesan</h1>
-          <p className="mt-5 max-w-lg text-base leading-7 text-muted-foreground sm:text-lg">Pilih kebutuhan acara atau tanyakan menu harian. Kami bantu siapkan katering yang sesuai.</p>
+          <h1 className="mt-3 text-4xl font-bold tracking-[-0.045em] text-foreground sm:text-5xl lg:text-6xl lg:leading-[1.04]">Catering Surabaya untuk acara keluarga, kantor, dan harian</h1>
+          <p className="mt-5 max-w-lg text-base leading-7 text-muted-foreground sm:text-lg">Pilih paket, susun menu, atau tanya menu hari ini. Ceritakan acaranya, kami bantu pilih menu dan jumlah porsi.</p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
             <Link href="/menu#jenis-acara" className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-emerald-700 px-5 text-sm font-bold text-white transition hover:bg-emerald-800 active:translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2">
               Lihat paket <ArrowRight className="h-4 w-4" aria-hidden="true" />
@@ -92,8 +92,8 @@ export default async function HomePage() {
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-24 lg:px-8">
         <div className="max-w-2xl">
           <p className="text-sm font-bold text-emerald-700 dark:text-emerald-300">Jenis acara</p>
-          <h2 className="mt-2 text-3xl font-bold tracking-[-0.04em] text-foreground sm:text-4xl">Catering yang sesuai acara Anda</h2>
-          <p className="mt-3 text-base leading-7 text-muted-foreground">Pilih momen Anda dulu. Kami bantu susun menu dan jumlah porsi yang tepat.</p>
+          <h2 className="mt-2 text-3xl font-bold tracking-[-0.04em] text-foreground sm:text-4xl">Mulai dari acara yang sedang disiapkan</h2>
+          <p className="mt-3 text-base leading-7 text-muted-foreground">Pilih jenis acara, lalu lihat pilihan menu dan paket yang bisa disesuaikan dengan tanggal serta jumlah porsi.</p>
         </div>
         <div className="mt-8 grid items-start gap-4 md:grid-cols-3">
           {EVENT_PACKAGE_GUIDES.slice(0, 3).map((guide) => (
@@ -110,8 +110,8 @@ export default async function HomePage() {
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="max-w-2xl">
               <p className="text-sm font-bold text-emerald-700 dark:text-emerald-300">Menu pilihan</p>
-              <h2 className="mt-2 text-3xl font-bold tracking-[-0.04em] text-foreground sm:text-4xl">Mulai dari hidangan yang Anda suka</h2>
-              <p className="mt-3 text-base leading-7 text-muted-foreground">Lihat menu satuan untuk menjadi awal susunan acara Anda. Harga terbaru dapat ditanyakan melalui WhatsApp.</p>
+              <h2 className="mt-2 text-3xl font-bold tracking-[-0.04em] text-foreground sm:text-4xl">Mulai dari menu yang ingin disajikan</h2>
+              <p className="mt-3 text-base leading-7 text-muted-foreground">Pilih menu satuan untuk menyusun acara. Harga terbaru bisa ditanyakan lewat WhatsApp.</p>
             </div>
             <div className="mt-8 grid gap-4 md:grid-cols-2">
               {featuredMenus.map((item) => <MenuCard key={item.id} item={item} image={getCatalogImageUrl(item.imagePath, "/images/nasi-kotak.jpg")} />)}
@@ -128,7 +128,7 @@ export default async function HomePage() {
           <div className="max-w-2xl">
             <p className="text-sm font-bold text-emerald-700 dark:text-emerald-300">Galeri acara</p>
             <h2 className="mt-2 text-3xl font-bold tracking-[-0.04em] text-foreground sm:text-4xl">Ruang untuk cerita setiap acara</h2>
-            <p className="mt-3 text-base leading-7 text-muted-foreground">Dokumentasi acara akan ditambahkan bertahap seiring perjalanan Shanti Catering.</p>
+            <p className="mt-3 text-base leading-7 text-muted-foreground">Galeri ini menampilkan contoh sajian dari dapur Shanti Catering. Dokumentasi acara asli akan ditambahkan saat tersedia.</p>
           </div>
           <Link href="/galeri" className="inline-flex min-h-11 shrink-0 items-center gap-2 text-sm font-bold text-emerald-800 transition hover:text-emerald-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 dark:text-emerald-300">
             Lihat galeri acara <ArrowRight className="h-4 w-4" aria-hidden="true" />
@@ -146,7 +146,7 @@ export default async function HomePage() {
           </div>
           <div className="max-w-xl">
             <p className="text-sm font-bold text-emerald-700 dark:text-emerald-300">Catering harian</p>
-            <h2 className="mt-2 text-3xl font-bold tracking-[-0.04em] text-foreground sm:text-4xl">Menu harian untuk rumah dan kantor</h2>
+            <h2 className="mt-2 text-3xl font-bold tracking-[-0.04em] text-foreground sm:text-4xl">Catering harian Surabaya untuk rumah dan kantor</h2>
             <p className="mt-3 text-base leading-7 text-muted-foreground">Menu berganti setiap hari dan diantar kurir. Tanyakan pilihan serta ketersediaannya lewat WhatsApp.</p>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <Link href="/catering-harian" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-emerald-700 px-5 text-sm font-bold text-white transition hover:bg-emerald-800 active:translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2">
@@ -162,8 +162,8 @@ export default async function HomePage() {
 
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-24 lg:px-8">
         <div className="max-w-2xl">
-          <h2 className="text-3xl font-bold tracking-[-0.04em] text-foreground sm:text-4xl">Cara pesan yang sederhana</h2>
-          <p className="mt-3 text-base leading-7 text-muted-foreground">Pilih kebutuhan Anda, isi data acara, lalu lanjutkan percakapan di WhatsApp.</p>
+          <h2 className="text-3xl font-bold tracking-[-0.04em] text-foreground sm:text-4xl">Pesan dalam tiga langkah</h2>
+          <p className="mt-3 text-base leading-7 text-muted-foreground">Pilih menu atau paket, isi jumlah porsi dan tanggal, lalu lanjutkan di WhatsApp.</p>
         </div>
         <div className="mt-8 grid overflow-hidden rounded-2xl border border-border md:grid-cols-[0.85fr_1.15fr_0.85fr]">
           <div className="border-b border-border bg-muted/55 p-6 md:border-b-0 md:border-r">
@@ -194,8 +194,8 @@ export default async function HomePage() {
           <div className="flex flex-col justify-between rounded-2xl bg-emerald-950 p-7 text-white sm:p-9">
             <div>
               <MessageCircle className="h-6 w-6 text-emerald-300" aria-hidden="true" />
-              <h2 className="mt-5 text-3xl font-bold tracking-[-0.04em]">Sudah tahu kebutuhan acara Anda?</h2>
-              <p className="mt-3 leading-7 text-emerald-100/75">Isi formulir di samping. Setelah pesanan tersimpan, Anda akan dibawa ke WhatsApp untuk melanjutkan detailnya.</p>
+              <h2 className="mt-5 text-3xl font-bold tracking-[-0.04em]">Sudah punya gambaran acaranya?</h2>
+              <p className="mt-3 leading-7 text-emerald-100/75">Ceritakan menu, jumlah porsi, tanggal, dan lokasi. Setelah data tersimpan, detail pesanan dilanjutkan di WhatsApp.</p>
             </div>
             <p className="mt-10 inline-flex items-start gap-2 text-sm text-emerald-100/75"><MapPin className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" /> Mulyorejo, Surabaya</p>
           </div>

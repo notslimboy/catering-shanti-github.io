@@ -1,6 +1,12 @@
 import { CUSTOMER_ORGANIZATIONS, type CustomerOrganization } from "@/lib/public-content";
 import { CustomerLogoTooltip } from "@/components/CustomerLogoTooltip";
 
+const logoScaleClasses = {
+  large: "[&>button]:p-2 [&>button>img]:max-h-14 sm:[&>button]:p-3 sm:[&>button>img]:max-h-16",
+  medium: "[&>button]:p-2 [&>button>img]:max-h-12 sm:[&>button]:p-3 sm:[&>button>img]:max-h-15",
+  largeMark: "[&>button]:p-2 [&>button>img]:!h-14 [&>button>img]:!w-14 sm:[&>button]:p-3 sm:[&>button>img]:!h-16 sm:[&>button>img]:!w-16",
+} as const;
+
 type CustomerLogoWallProps = {
   customers?: CustomerOrganization[];
 };
@@ -14,7 +20,10 @@ export function CustomerLogoWall({ customers = CUSTOMER_ORGANIZATIONS }: Custome
         </h2>
         <ul className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-5" aria-label="Institusi yang pernah dilayani">
           {customers.map((customer) => (
-            <li key={customer.id} className="min-w-0">
+            <li
+              key={customer.id}
+              className={`min-w-0 ${customer.logoScale ? logoScaleClasses[customer.logoScale] : ""}`}
+            >
               <CustomerLogoTooltip customer={customer} />
             </li>
           ))}

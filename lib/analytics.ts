@@ -3,6 +3,7 @@ type AnalyticsEvent =
   | "package_selected"
   | "form_started"
   | "order_saved"
+  | "whatsapp_handoff"
   | "order_fallback";
 
 type AnalyticsParams = Record<string, string | number | boolean>;

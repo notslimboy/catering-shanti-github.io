@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowUpRight, Check } from "lucide-react";
 import { trackEvent } from "@/lib/analytics";
 import type { PublicPackage } from "@/lib/catalog";
@@ -43,13 +44,13 @@ export function PackageCategoryCard({ item, image, className = "" }: PackageCate
             ))}
           </ul>
         )}
-        <a
-          href={`/?package=${encodeURIComponent(item.id)}#pesan`}
-          onClick={() => trackEvent("package_selected", { selection_type: "package", selection_id: item.id })}
+        <Link
+          href={`/pesan?intent=package&packageId=${encodeURIComponent(item.slug)}`}
+          onClick={() => trackEvent("package_selected", { selection_type: "package_consultation", selection_id: item.id, selection_slug: item.slug, source: "package_card", page: window.location.pathname })}
           className="mt-5 inline-flex w-fit items-center gap-1 rounded-lg text-sm font-bold text-emerald-800 transition hover:text-emerald-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 dark:text-emerald-300"
         >
-          Pilih paket <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
-        </a>
+          Tanyakan paket <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+        </Link>
       </div>
       <div className="relative order-1 aspect-[16/9] overflow-hidden sm:order-2 sm:aspect-auto">
         <Image src={image} alt={item.name} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 40vw" className="object-cover transition duration-500 group-hover:scale-[1.035]" />

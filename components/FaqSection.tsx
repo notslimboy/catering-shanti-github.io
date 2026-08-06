@@ -53,12 +53,12 @@ export function FaqSection({ items = FAQ_ITEMS }: FaqSectionProps) {
       <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[minmax(0,0.7fr)_minmax(0,1.3fr)] lg:gap-12 lg:px-8">
         <div>
           <h2 className="text-3xl font-bold tracking-[-0.04em] text-foreground sm:text-4xl">Yang sering ditanyakan</h2>
-          <p className="mt-3 max-w-md text-base leading-7 text-muted-foreground">Belum menemukan jawabannya? Kirim kebutuhan Anda lewat WhatsApp agar kami bantu cek langsung.</p>
+          <p className="mt-3 max-w-md text-base leading-7 text-muted-foreground">Masih ada yang ingin ditanyakan? Kirim menu, porsi, tanggal, dan lokasi lewat WhatsApp.</p>
           <WhatsAppCta
             placement="faq"
             className="mt-6 inline-flex min-h-11 items-center justify-center rounded-xl bg-emerald-700 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-emerald-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 dark:focus-visible:ring-emerald-300 dark:focus-visible:ring-offset-background active:translate-y-px"
           >
-            Tanya via WhatsApp
+            Tanya menu lewat WhatsApp
           </WhatsAppCta>
         </div>
 

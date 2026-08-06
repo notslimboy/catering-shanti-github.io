@@ -15,13 +15,13 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 export const metadata: Metadata = {
   metadataBase: getSiteUrl(),
   title: {
-    default: "Shanti Catering | Catering Surabaya untuk Berbagai Acara",
+    default: "Shanti Catering Surabaya | Nasi Kotak & Prasmanan",
     template: "%s | Shanti Catering",
   },
   description: BUSINESS.description,
-  keywords: ["catering Surabaya", "nasi kotak Surabaya", "prasmanan Surabaya", "paket catering"],
+  alternates: { canonical: "/" },
   openGraph: {
-    title: "Shanti Catering | Catering Surabaya",
+    title: "Shanti Catering Surabaya | Nasi Kotak & Prasmanan",
     description: BUSINESS.description,
     type: "website",
     locale: "id_ID",
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Shanti Catering | Catering Surabaya",
+    title: "Shanti Catering Surabaya | Nasi Kotak & Prasmanan",
     description: BUSINESS.description,
     images: [BUSINESS.image],
   },
@@ -37,13 +37,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  order,
 }: Readonly<{
   children: React.ReactNode;
+  order: React.ReactNode;
 }>) {
   const siteUrl = getSiteUrl();
   const localBusinessSchema = {
     "@context": "https://schema.org",
-    "@type": "FoodEstablishment",
+    "@type": "Caterer",
     name: BUSINESS.name,
     description: BUSINESS.description,
     url: siteUrl.toString(),
@@ -67,6 +69,7 @@ export default function RootLayout({
           disableTransitionOnChange={false}
         >
           {children}
+          {order}
           <Analytics />
           <script
             type="application/ld+json"

@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { trackEvent } from "@/lib/analytics";
 import type { PublicMenuItem } from "@/lib/catalog";
@@ -28,13 +29,13 @@ export function MenuCard({ item, image, compact = false }: MenuCardProps) {
         <h3 className="mt-1 text-lg font-bold tracking-tight text-foreground">{item.name}</h3>
         {item.description && <p className="mt-2 line-clamp-2 text-sm leading-6 text-muted-foreground">{item.description}</p>}
         <div className="mt-5 flex items-center justify-end">
-          <a
-            href={`/?menuId=${encodeURIComponent(item.id)}#pesan`}
-            onClick={() => trackEvent("package_selected", { selection_type: "menu", selection_id: item.id })}
+          <Link
+            href={`/pesan?intent=menu&menuId=${encodeURIComponent(item.id)}`}
+            onClick={() => trackEvent("package_selected", { selection_type: "menu", selection_id: item.id, selection_slug: item.slug, source: "menu_card", page: window.location.pathname })}
             className="inline-flex shrink-0 items-center gap-1 rounded-lg px-1 text-sm font-bold text-emerald-800 transition hover:text-emerald-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 dark:text-emerald-300"
           >
             Pilih menu <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
-          </a>
+          </Link>
         </div>
       </div>
     </article>

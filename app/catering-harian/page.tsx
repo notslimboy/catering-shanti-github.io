@@ -8,7 +8,7 @@ import { WhatsAppBrandIcon } from "@/components/icons/WhatsAppIcon";
 
 export const metadata: Metadata = {
   title: "Catering Harian Surabaya",
-  description: "Catering harian Shanti Catering untuk rumah dan kantor. Tanyakan menu yang berganti setiap hari melalui WhatsApp.",
+  description: "Catering harian Surabaya untuk rumah dan kantor dengan menu yang berganti setiap hari. Tanyakan menu lewat WhatsApp.",
   alternates: { canonical: "/catering-harian" },
   openGraph: {
     title: "Catering Harian Surabaya | Shanti Catering",
@@ -42,8 +42,8 @@ export default function CateringHarianPage() {
 
       <section className="mx-auto grid max-w-7xl gap-8 px-4 pb-16 pt-10 sm:px-6 md:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)] md:items-center md:gap-12 md:pb-24 md:pt-16 lg:px-8">
         <div className="max-w-xl">
-          <p className="text-sm font-bold text-emerald-700 dark:text-emerald-300">Catering Harian</p>
-          <h1 className="mt-3 text-4xl font-bold tracking-[-0.045em] text-foreground sm:text-5xl">Makan harian untuk rumah dan kantor</h1>
+          <p className="text-sm font-bold text-emerald-700 dark:text-emerald-300">Catering Harian Surabaya</p>
+          <h1 className="mt-3 text-4xl font-bold tracking-[-0.045em] text-foreground sm:text-5xl">Catering harian Surabaya untuk rumah dan kantor</h1>
           <p className="mt-5 text-base leading-7 text-muted-foreground sm:text-lg">
             Menu berganti setiap hari dan diantar kurir. Tanyakan pilihan serta ketersediaannya lewat WhatsApp.
           </p>
@@ -78,8 +78,8 @@ export default function CateringHarianPage() {
       <section className="border-y border-border bg-muted/45 py-16 md:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl">
-            <h2 className="text-3xl font-bold tracking-[-0.04em] text-foreground sm:text-4xl">Menu mengikuti hari Anda</h2>
-            <p className="mt-3 text-base leading-7 text-muted-foreground">Kami mengirimkan informasi menu harian melalui WhatsApp sebelum Anda memesan.</p>
+            <h2 className="text-3xl font-bold tracking-[-0.04em] text-foreground sm:text-4xl">Menu mengikuti kebutuhan harian</h2>
+            <p className="mt-3 text-base leading-7 text-muted-foreground">Menu hari ini bisa ditanyakan lewat WhatsApp sebelum pesanan dibuat.</p>
           </div>
 
           <div className="mt-10 grid gap-7 md:grid-cols-3 md:gap-8">
@@ -109,7 +109,7 @@ export default function CateringHarianPage() {
           </li>
           <li>
             <p className="text-base font-bold text-foreground">Sampaikan kebutuhan</p>
-            <p className="mt-2 text-sm leading-6 text-muted-foreground">Beritahu jumlah pesanan dan alamat pengantaran Anda.</p>
+            <p className="mt-2 text-sm leading-6 text-muted-foreground">Sampaikan jumlah pesanan dan alamat pengantaran.</p>
           </li>
           <li>
             <p className="text-base font-bold text-foreground">Tunggu konfirmasi</p>
@@ -123,7 +123,7 @@ export default function CateringHarianPage() {
           <div>
             <MessageCircle className="h-5 w-5 text-emerald-700 dark:text-emerald-300" aria-hidden="true" />
             <h2 className="mt-3 text-2xl font-bold tracking-tight text-foreground">Butuh catering untuk acara?</h2>
-            <p className="mt-1 text-sm leading-6 text-muted-foreground">Lihat paket dan menu yang dapat disesuaikan dengan kebutuhan acara Anda.</p>
+            <p className="mt-1 text-sm leading-6 text-muted-foreground">Lihat paket dan menu yang bisa disesuaikan dengan kebutuhan acara.</p>
           </div>
           <Link
             href="/menu"

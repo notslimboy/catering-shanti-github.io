@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { trackEvent } from "@/lib/analytics";
 import type { EventPackageGuide } from "@/lib/event-package-guides";
@@ -25,13 +26,13 @@ export function EventPackageGuideCard({ guide, className = "" }: EventPackageGui
       <div className="flex flex-1 flex-col p-5 sm:p-6">
         <h3 className="text-xl font-bold tracking-tight text-foreground">{guide.title}</h3>
         <p className="mt-2 text-sm leading-6 text-muted-foreground">{guide.description}</p>
-        <a
-          href={`/?request=custom&topic=${encodeURIComponent(guide.topic)}#pesan`}
-          onClick={() => trackEvent("package_selected", { selection_type: "event_guide", selection_id: guide.slug })}
+        <Link
+          href={`/pesan?intent=custom&event=${encodeURIComponent(guide.slug)}`}
+          onClick={() => trackEvent("package_selected", { selection_type: "event_guide", selection_id: guide.slug, source: "event_package_guide", page: window.location.pathname })}
           className="mt-auto inline-flex w-fit items-center gap-1 pt-5 rounded-lg text-sm font-bold text-emerald-800 transition hover:text-emerald-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 dark:text-emerald-300"
         >
           Pilih kebutuhan <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
-        </a>
+        </Link>
       </div>
     </article>
   );

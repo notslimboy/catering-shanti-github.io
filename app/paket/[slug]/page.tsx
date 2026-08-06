@@ -42,7 +42,7 @@ function formatRupiah(value: number) {
 function fromCatalogPackage(item: PublicPackage): PackagePageContent {
   return {
     title: item.name,
-    summary: item.summary || "Paket catering untuk kebutuhan acara Anda.",
+    summary: item.summary || "Paket catering untuk kebutuhan acara.",
     image: getCatalogImageUrl(item.imagePath, "/images/nasi-kotak.jpg"),
     highlights: item.includedItems,
     categoryName: item.category?.name,
@@ -95,11 +95,11 @@ export default async function PackagePage({ params }: PackagePageProps) {
   }
 
   const consultationUrl = getWhatsAppUrl(
-    `Halo Shanti Catering, saya ingin konsultasi ${item.title.toLowerCase()}.`,
+    `Halo Shanti Catering, saya ingin tanya ${item.title.toLowerCase()}.`,
   );
   const orderUrl = item.packageSlug
-    ? `/?package=${encodeURIComponent(item.packageSlug)}#pesan`
-    : `/?request=custom&topic=${encodeURIComponent(item.title)}#pesan`;
+    ? `/pesan?intent=package&packageId=${encodeURIComponent(item.packageSlug)}`
+    : `/pesan?intent=custom&topic=${encodeURIComponent(item.title)}`;
   const priceLabel = item.priceFromIdr === null || item.priceFromIdr === undefined
     ? "Hubungi untuk harga"
     : `Mulai ${formatRupiah(item.priceFromIdr)}${item.priceUnit ? ` / ${item.priceUnit}` : ""}`;
@@ -156,7 +156,7 @@ export default async function PackagePage({ params }: PackagePageProps) {
                   className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-border px-5 text-sm font-semibold text-foreground transition-colors hover:bg-muted"
                 >
                   <MessageCircle className="size-4" />
-                  Konsultasi via WhatsApp
+                  Tanya lewat WhatsApp
                 </a>
               </div>
             </div>

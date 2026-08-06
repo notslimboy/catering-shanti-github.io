@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, MessageCircle } from "lucide-react";
@@ -11,6 +12,17 @@ import { WhatsAppBrandIcon } from "@/components/icons/WhatsAppIcon";
 import { getActiveMenuItems, getActivePackages } from "@/lib/catalog";
 import { getCatalogImageUrl } from "@/lib/catalog-image";
 import { EVENT_PACKAGE_GUIDES } from "@/lib/event-package-guides";
+
+export const metadata: Metadata = {
+  title: "Menu & Paket Catering Surabaya",
+  description: "Pilih menu, nasi kotak, prasmanan, tumpeng, atau paket catering untuk acara keluarga dan kantor di Surabaya.",
+  alternates: { canonical: "/menu" },
+  openGraph: {
+    title: "Menu & Paket Catering Surabaya | Shanti Catering",
+    description: "Pilih menu dan paket catering untuk acara keluarga, kantor, dan kebutuhan harian.",
+    images: [{ url: "/images/tumpeng.jpg", width: 1200, height: 630, alt: "Contoh sajian tumpeng Shanti Catering" }],
+  },
+};
 
 const packageFallbackImages: Record<string, string> = {
   "catering-pernikahan-surabaya": "/images/nasi-kotak.jpg",
@@ -45,8 +57,8 @@ export default async function MenuPage() {
       <section className="mx-auto grid max-w-7xl gap-8 px-4 pb-16 pt-10 sm:px-6 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:items-center md:gap-12 md:pb-24 md:pt-16 lg:px-8">
         <div className="max-w-xl">
           <p className="text-sm font-bold text-emerald-700 dark:text-emerald-300">Paket & Menu</p>
-          <h1 className="mt-3 text-4xl font-bold tracking-[-0.045em] text-foreground sm:text-5xl">Pilih kebutuhan untuk acara Anda</h1>
-          <p className="mt-5 text-base leading-7 text-muted-foreground sm:text-lg">Mulai dari paket acara atau menu satuan. Klik pilihan yang sesuai untuk mengisi formulir pemesanan.</p>
+          <h1 className="mt-3 text-4xl font-bold tracking-[-0.045em] text-foreground sm:text-5xl">Pilih menu untuk acara yang sedang disiapkan</h1>
+          <p className="mt-5 text-base leading-7 text-muted-foreground sm:text-lg">Mulai dari paket acara atau menu satuan. Pilih yang sesuai, lalu isi jumlah porsi dan tanggal acara.</p>
           <Link href="#jenis-acara" className="mt-7 inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-emerald-700 px-5 text-sm font-bold text-white transition hover:bg-emerald-800 active:translate-y-px">
             Pilih jenis acara <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </Link>
@@ -59,8 +71,8 @@ export default async function MenuPage() {
       <section id="jenis-acara" className="scroll-mt-24 border-y border-border bg-muted/45 py-16 md:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl">
-            <h2 className="text-3xl font-bold tracking-[-0.04em] text-foreground sm:text-4xl">Catering untuk setiap momen</h2>
-            <p className="mt-3 text-base leading-7 text-muted-foreground">Mulai dari jenis acara Anda. Isi menu dan harga kami sesuaikan dengan jumlah porsi serta kebutuhan acara.</p>
+            <h2 className="text-3xl font-bold tracking-[-0.04em] text-foreground sm:text-4xl">Mulai dari jenis acara</h2>
+            <p className="mt-3 text-base leading-7 text-muted-foreground">Pilih contoh acara, lalu ceritakan menu, tanggal, lokasi, dan jumlah porsi yang dibutuhkan.</p>
           </div>
           <div className="mt-8 grid items-start gap-4 md:grid-cols-2 xl:grid-cols-3">
             {EVENT_PACKAGE_GUIDES.map((guide) => (
@@ -75,7 +87,7 @@ export default async function MenuPage() {
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="max-w-2xl">
               <h2 className="text-3xl font-bold tracking-[-0.04em] text-foreground sm:text-4xl">Paket yang siap dipilih</h2>
-              <p className="mt-3 text-base leading-7 text-muted-foreground">Pilih paket aktif, lalu isi jumlah porsi dan tanggal acara Anda.</p>
+              <p className="mt-3 text-base leading-7 text-muted-foreground">Pilih paket yang tersedia, lalu isi jumlah porsi dan tanggal acara.</p>
             </div>
             <div className="mt-10 space-y-14">
               {packageGroups.map((group) => (
@@ -103,13 +115,13 @@ export default async function MenuPage() {
         </div>
         <div className="flex flex-col justify-center py-10 md:order-1 md:p-10 lg:p-14">
           <h2 className="text-3xl font-bold tracking-[-0.04em] text-foreground">Butuh menu yang lebih khusus?</h2>
-          <p className="mt-3 max-w-md text-base leading-7 text-muted-foreground">Ceritakan acara dan kebutuhan Anda. Kami bisa membantu menyusun pilihan menu sebelum Anda memesan.</p>
+          <p className="mt-3 max-w-md text-base leading-7 text-muted-foreground">Ceritakan acara yang sedang disiapkan. Kami bantu susun pilihan menu sebelum pesanan dibuat.</p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-            <Link href="/?request=custom#pesan" className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-emerald-700 px-4 text-sm font-bold text-white transition hover:bg-emerald-800 active:translate-y-px">
+            <Link href="/pesan?intent=custom&topic=Menu%20custom" className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-emerald-700 px-4 text-sm font-bold text-white transition hover:bg-emerald-800 active:translate-y-px">
               Pilih menu custom <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
             <WhatsAppCta placement="menu_custom" className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-emerald-700/25 px-4 text-sm font-bold text-emerald-800 transition hover:bg-emerald-50 active:translate-y-px dark:text-emerald-300 dark:hover:bg-emerald-950/40">
-              <WhatsAppBrandIcon className="h-4 w-4" /> Konsultasi via WhatsApp
+              <WhatsAppBrandIcon className="h-4 w-4" /> Tanya menu lewat WhatsApp
             </WhatsAppCta>
           </div>
         </div>
@@ -118,7 +130,7 @@ export default async function MenuPage() {
       <section id="menu-satuan" className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 md:pb-24 lg:px-8">
         <div className="max-w-2xl">
           <h2 className="text-3xl font-bold tracking-[-0.04em] text-foreground sm:text-4xl">Menu satuan</h2>
-          <p className="mt-3 text-base leading-7 text-muted-foreground">Pilih menu untuk memasukkannya ke formulir pesanan. Harga kami konfirmasi sesuai kebutuhan acara.</p>
+          <p className="mt-3 text-base leading-7 text-muted-foreground">Pilih menu untuk dimasukkan ke formulir pesanan. Harga dikonfirmasi sesuai menu dan jumlah porsi.</p>
         </div>
         <div className="mt-10 space-y-16">
           {menuGroups.map((group) => {
@@ -145,7 +157,7 @@ export default async function MenuPage() {
           <div>
             <MessageCircle className="h-5 w-5 text-emerald-300" aria-hidden="true" />
             <h2 className="mt-3 text-2xl font-bold tracking-tight">Masih ingin tanya dulu?</h2>
-            <p className="mt-1 text-sm leading-6 text-emerald-100/75">Konsultasikan kebutuhan acara Anda langsung dengan kami di WhatsApp.</p>
+            <p className="mt-1 text-sm leading-6 text-emerald-100/75">Ceritakan menu, jumlah porsi, tanggal, dan lokasi lewat WhatsApp.</p>
           </div>
           <WhatsAppCta placement="menu_footer" className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-xl bg-white px-5 text-sm font-bold text-emerald-900 transition hover:bg-emerald-50 active:translate-y-px">
             <WhatsAppBrandIcon className="h-4 w-4" /> Hubungi via WhatsApp
