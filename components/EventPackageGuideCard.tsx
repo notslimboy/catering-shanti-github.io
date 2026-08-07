@@ -21,7 +21,7 @@ export function EventPackageGuideCard({ guide, className = "", compactOnMobile =
         title: "text-base lg:text-xl",
         description: "hidden lg:block",
         link: "min-h-11 pt-2 lg:pt-5",
-        sizes: "50vw",
+        sizes: "(max-width: 1279px) 50vw, 395px",
       }
     : {
         article: "",
@@ -30,7 +30,7 @@ export function EventPackageGuideCard({ guide, className = "", compactOnMobile =
         title: "text-xl",
         description: "",
         link: "pt-5",
-        sizes: "(max-width: 767px) 100vw, (max-width: 1279px) 33vw, 395px",
+        sizes: "(max-width: 1279px) 50vw, 395px",
       };
 
   return (

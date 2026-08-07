@@ -9,7 +9,7 @@ type GoogleReviewsSectionProps = {
 
 function RatingStars({ rating }: { rating: GoogleReview["rating"] }) {
   return (
-    <span className="flex items-center gap-0.5" aria-label={`${rating} dari 5 bintang`}>
+    <span className="flex items-center gap-0.5" role="img" aria-label={`${rating} dari 5 bintang`}>
       {Array.from({ length: 5 }, (_, index) => (
         <Star
           key={index}
@@ -33,7 +33,7 @@ export function GoogleReviewsSection({ reviews, summary, available }: GoogleRevi
               <p className="text-sm font-bold text-emerald-200">Ulasan Google Maps</p>
               <div className="mt-1.5 flex items-center gap-3">
                 <p className="text-4xl font-bold tracking-[-0.06em] sm:text-5xl">{summary.rating}</p>
-                <span className="flex gap-0.5" aria-label={`Rating ${summary.rating} dari 5 bintang`}>
+                <span className="flex gap-0.5" role="img" aria-label={`Rating ${summary.rating} dari 5 bintang`}>
                   {Array.from({ length: 5 }, (_, index) => (
                     <Star
                       key={index}

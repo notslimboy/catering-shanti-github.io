@@ -60,7 +60,7 @@ export default async function HomePage() {
           </div>
         </div>
         <div className="relative min-h-[340px] overflow-hidden rounded-2xl bg-emerald-950 sm:min-h-[430px]">
-          <Image src="/images/nasi-kotak.jpg" alt="Nasi kotak dari Shanti Catering" fill preload sizes="(max-width: 767px) 100vw, (max-width: 1279px) 50vw, 642px" className="object-cover" />
+          <Image src="/images/nasi-kotak.jpg" alt="Nasi kotak dari Shanti Catering" fill fetchPriority="high" sizes="(max-width: 767px) 100vw, (max-width: 1279px) 50vw, 642px" className="object-cover" />
         </div>
       </section>
 

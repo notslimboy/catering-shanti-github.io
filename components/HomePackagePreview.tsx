@@ -69,13 +69,10 @@ export function HomePackagePreview({ collections, packages }: HomePackagePreview
             ))}
           </div>
           {compactRemainingCount > 0 && (
-            <Link href={catalogueHref} className={`${collectionCtaClass} lg:hidden`}>
-              {`Lihat ${compactRemainingCount} paket lainnya`} <ArrowRight className="size-4 shrink-0" aria-hidden="true" />
-            </Link>
-          )}
-          {desktopRemainingCount > 0 && (
-            <Link href={catalogueHref} className={`${collectionCtaClass} hidden lg:inline-flex`}>
-              {`Lihat ${desktopRemainingCount} paket lainnya`} <ArrowRight className="size-4 shrink-0" aria-hidden="true" />
+            <Link href={catalogueHref} className={`${collectionCtaClass} ${desktopRemainingCount > 0 ? "" : "lg:hidden"}`}>
+              <span className="lg:hidden">{`Lihat ${compactRemainingCount} paket lainnya`}</span>
+              {desktopRemainingCount > 0 && <span className="hidden lg:inline">{`Lihat ${desktopRemainingCount} paket lainnya`}</span>}
+              <ArrowRight className="size-4 shrink-0" aria-hidden="true" />
             </Link>
           )}
         </div>

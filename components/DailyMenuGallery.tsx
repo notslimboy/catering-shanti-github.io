@@ -210,7 +210,7 @@ export function DailyMenuGallery({ items }: DailyMenuGalleryProps) {
             >
               <span className="relative block aspect-[1414/2000] w-full overflow-hidden">
                 <Image
-                  src={item.sourceUrl}
+                  src={item.previewUrl}
                   alt={item.alt}
                   fill
                   loading="lazy"
@@ -301,7 +301,7 @@ export function DailyMenuGallery({ items }: DailyMenuGalleryProps) {
                       alt={activeItem.alt}
                       width={1414}
                       height={2000}
-                      sizes="100vw"
+                      sizes="(max-width: 639px) 100vw, (max-width: 1023px) 70vw, 640px"
                       draggable={false}
                       className={`h-auto w-full max-h-full select-none object-contain sm:w-auto sm:max-w-full ${isPanning ? "" : "transition-transform duration-200 motion-reduce:transition-none"}`}
                       style={{ transform: `translate3d(${pan.x}px, ${pan.y}px, 0) scale(${zoom})` }}

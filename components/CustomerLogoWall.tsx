@@ -41,7 +41,7 @@ export function CustomerLogoWall({ customers = CUSTOMER_ORGANIZATIONS }: Custome
       aria-label={isDuplicate ? undefined : "Institusi yang pernah dilayani"}
       className="customer-logo-marquee-track flex w-max shrink-0 items-center gap-3 px-1 sm:gap-4"
     >
-      {customers.map((customer, index) => (
+      {customers.map((customer) => (
         <li
           key={`${isDuplicate ? "duplicate-" : ""}${customer.id}`}
           className={`w-[168px] shrink-0 sm:w-[208px] ${customer.logoScale ? logoScaleClasses[customer.logoScale] : ""}`}
@@ -49,7 +49,6 @@ export function CustomerLogoWall({ customers = CUSTOMER_ORGANIZATIONS }: Custome
           <CustomerLogoTooltip
             customer={customer}
             tabIndex={isDuplicate ? -1 : undefined}
-            eager={!isDuplicate && index < 3}
             onActivityChange={(isActive) => handleCustomerActivity(customer.id, isActive)}
           />
         </li>

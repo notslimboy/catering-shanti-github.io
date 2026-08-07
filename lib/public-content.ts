@@ -72,7 +72,7 @@ export const GALLERY_ITEMS: GalleryItem[] = [
     description: "Contoh coffee break Shanti Catering, bukan dokumentasi acara kantor.",
     alt: "Contoh coffee break dari Shanti Catering, bukan dokumentasi acara kantor",
     status: "ready",
-    imageSrc: "/images/events/coffee-break.jpg",
+    imageSrc: "/images/events/coffee-break.webp",
     gridClassName: "col-span-1 row-span-1 md:col-span-3 md:row-span-2 md:col-start-4 md:row-start-1 lg:col-span-3 lg:row-span-2 lg:col-start-7 lg:row-start-1",
     teaserGridClassName: "col-span-1 row-span-1 md:col-span-3 md:row-span-1 md:col-start-4 md:row-start-1",
     teaserSizes: "(max-width: 767px) 50vw, 50vw",

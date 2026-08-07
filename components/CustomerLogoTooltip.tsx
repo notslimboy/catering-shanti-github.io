@@ -7,11 +7,21 @@ import type { CustomerOrganization } from "@/lib/public-content";
 type CustomerLogoTooltipProps = {
   customer: CustomerOrganization;
   tabIndex?: number;
-  eager?: boolean;
   onActivityChange?: (isActive: boolean) => void;
 };
 
-export function CustomerLogoTooltip({ customer, tabIndex, eager = false, onActivityChange }: CustomerLogoTooltipProps) {
+function logoSizes(customer: CustomerOrganization) {
+  if (customer.logoScale === "wideWordmark") return "(max-width: 639px) 152px, 196px";
+  if (customer.markOnly || customer.logoScale === "prominentEmblem" || customer.logoScale === "prominentUniversityMark") {
+    return "(max-width: 639px) 80px, 92px";
+  }
+  if (customer.logoScale === "prominentShield" || customer.logoScale === "portraitCrest" || customer.logoScale === "largeMark") {
+    return "(max-width: 639px) 76px, 88px";
+  }
+  return "(max-width: 639px) 136px, 168px";
+}
+
+export function CustomerLogoTooltip({ customer, tabIndex, onActivityChange }: CustomerLogoTooltipProps) {
   const tooltipId = `customer-logo-tooltip-${useId().replace(/:/g, "")}`;
   const buttonRef = useRef<HTMLButtonElement>(null);
   const tooltipRef = useRef<HTMLSpanElement>(null);
@@ -133,8 +143,8 @@ export function CustomerLogoTooltip({ customer, tabIndex, eager = false, onActiv
           aria-hidden="true"
           width={224}
           height={96}
-          loading={eager ? "eager" : "lazy"}
-          sizes="(max-width: 639px) 168px, 208px"
+          loading="lazy"
+          sizes={logoSizes(customer)}
           className={
             customer.markOnly
               ? "h-13 w-13 object-contain sm:h-16 sm:w-16"

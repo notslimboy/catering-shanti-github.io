@@ -25,7 +25,7 @@ export const EVENT_PACKAGE_GUIDES: readonly EventPackageGuide[] = [
     slug: "catering-kantor-surabaya",
     title: "Kantor & meeting",
     description: "Untuk rapat, pelatihan, seminar, dan coffee break.",
-    image: "/images/events/coffee-break.jpg",
+    image: "/images/events/coffee-break.webp",
     imagePosition: "center 58%",
     topic: "Kantor dan meeting",
   },
