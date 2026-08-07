@@ -2,16 +2,18 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Building2, CalendarDays, House, MessageCircle, Truck } from "lucide-react";
+import { DailyMenuGallery } from "@/components/DailyMenuGallery";
 import { SiteHeader } from "@/components/SiteHeader";
 import { WhatsAppCta } from "@/components/WhatsAppCta";
 import { WhatsAppBrandIcon } from "@/components/icons/WhatsAppIcon";
+import { DAILY_MENU_GALLERY } from "@/lib/daily-menu-gallery";
 
 export const metadata: Metadata = {
-  title: "Catering Harian Surabaya",
+  title: "Catering harian Surabaya",
   description: "Catering harian Surabaya untuk rumah dan kantor dengan menu yang berganti setiap hari. Tanyakan menu lewat WhatsApp.",
   alternates: { canonical: "/catering-harian" },
   openGraph: {
-    title: "Catering Harian Surabaya | Shanti Catering",
+    title: "Catering harian Surabaya | Shanti Catering",
     description: "Menu harian untuk rumah dan kantor. Tanyakan menu serta ketersediaan melalui WhatsApp.",
     images: [{ url: "/images/nasi-kotak.jpg", width: 1200, height: 630, alt: "Nasi kotak Shanti Catering" }],
   },
@@ -65,12 +67,13 @@ export default function CateringHarianPage() {
 
         <div className="relative min-h-[300px] overflow-hidden rounded-2xl bg-emerald-950 sm:min-h-[390px]">
           <Image
-            src="/images/nasi-kotak.jpg"
+            src="/images/catering-harian-hero.webp"
             alt="Nasi kotak Shanti Catering"
             fill
-            priority
-            sizes="(max-width: 767px) 100vw, 55vw"
+            preload
+            sizes="(max-width: 767px) 100vw, (max-width: 1279px) 50vw, 642px"
             className="object-cover"
+            style={{ objectPosition: "center 48%" }}
           />
         </div>
       </section>
@@ -116,6 +119,17 @@ export default function CateringHarianPage() {
             <p className="mt-2 text-sm leading-6 text-muted-foreground">Kami mengonfirmasi pesanan sebelum menyiapkan pengantaran.</p>
           </li>
         </ol>
+      </section>
+
+      <section className="border-y border-border bg-muted/45 py-16 md:py-24" aria-labelledby="menu-mingguan-title">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="max-w-2xl">
+            <h2 id="menu-mingguan-title" className="text-3xl font-bold tracking-[-0.04em] text-foreground sm:text-4xl">Menu mingguan catering harian</h2>
+            <p className="mt-3 text-base leading-7 text-muted-foreground">Lihat menu dari minggu ke minggu dan simpan gambar aslinya untuk referensi atau dibagikan.</p>
+          </div>
+
+          <DailyMenuGallery items={DAILY_MENU_GALLERY} />
+        </div>
       </section>
 
       <section className="border-t border-border bg-card py-12">

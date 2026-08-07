@@ -9,7 +9,7 @@ import { getActiveMenuItems, getActivePackages } from "@/lib/catalog";
 import { resolveOrderIntent } from "@/lib/order-intent";
 
 export const metadata: Metadata = {
-  title: "Pesan Catering",
+  title: "Pesan catering",
   description: "Isi menu, jumlah porsi, tanggal, dan lokasi untuk melanjutkan pesanan catering Shanti Catering melalui WhatsApp.",
   alternates: { canonical: "/pesan" },
   robots: { index: false, follow: true },

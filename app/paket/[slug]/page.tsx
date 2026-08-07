@@ -122,7 +122,7 @@ export default async function PackagePage({ params }: PackagePageProps) {
 
           <div className="mt-6 grid overflow-hidden rounded-2xl border border-border bg-card lg:grid-cols-[1.05fr_0.95fr]">
             <div className="relative min-h-72 lg:min-h-[520px]">
-              <Image src={item.image} alt={item.title} fill priority sizes="(max-width: 1024px) 100vw, 55vw" className="object-cover" />
+              <Image src={item.image} alt={item.title} fill preload sizes="(max-width: 1024px) 100vw, 55vw" className="object-cover" />
             </div>
             <div className="flex flex-col justify-center p-7 sm:p-10">
               <p className="text-sm font-semibold text-emerald-700 dark:text-emerald-300">{item.categoryName || "Paket acara"}</p>

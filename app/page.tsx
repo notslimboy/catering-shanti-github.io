@@ -7,16 +7,15 @@ import { EventPackageGuideCard } from "@/components/EventPackageGuideCard";
 import { FaqSection } from "@/components/FaqSection";
 import { GalleryMasonry } from "@/components/GalleryMasonry";
 import { GoogleReviewsSection } from "@/components/GoogleReviewsSection";
+import { HomePackagePreview } from "@/components/HomePackagePreview";
 import { MapSection } from "@/components/MapSection";
-import { MenuCard } from "@/components/MenuCard";
 import { QuickOrderForm } from "@/components/QuickOrderForm";
 import { SiteHeader } from "@/components/SiteHeader";
-import { TrustDocumentsSection } from "@/components/TrustDocumentsSection";
 import { WhatsAppCta } from "@/components/WhatsAppCta";
 import { WhatsAppBrandIcon } from "@/components/icons/WhatsAppIcon";
 import { getActiveMenuItems, getActivePackages } from "@/lib/catalog";
-import { getCatalogImageUrl } from "@/lib/catalog-image";
 import { EVENT_PACKAGE_GUIDES } from "@/lib/event-package-guides";
+import { getAllPackageCollections, getAllPackages } from "@/lib/package-catalogue";
 import { GOOGLE_REVIEWS, GOOGLE_REVIEW_SUMMARY, GALLERY_ITEMS } from "@/lib/public-content";
 import { hasGoogleReviewsSnapshotEnabled } from "@/lib/server/config";
 import { getPublishedGoogleReviewsSnapshot } from "@/lib/server/google-review-snapshot-entry";
@@ -39,7 +38,8 @@ export default async function HomePage() {
     observedAt: "Belum tersedia",
     profileUrl: googleReviewsSnapshot.profileUrl ?? GOOGLE_REVIEW_SUMMARY.profileUrl,
   };
-  const featuredMenus = menuItems.filter((item) => item.featured).slice(0, 2);
+  const packageCollections = getAllPackageCollections();
+  const packageCatalogue = getAllPackages();
 
   return (
     <main className="min-h-[100dvh] bg-background">
@@ -60,7 +60,7 @@ export default async function HomePage() {
           </div>
         </div>
         <div className="relative min-h-[340px] overflow-hidden rounded-2xl bg-emerald-950 sm:min-h-[430px]">
-          <Image src="/images/nasi-kotak.jpg" alt="Nasi kotak dari Shanti Catering" fill priority sizes="(max-width: 767px) 100vw, 55vw" className="object-cover" />
+          <Image src="/images/nasi-kotak.jpg" alt="Nasi kotak dari Shanti Catering" fill preload sizes="(max-width: 767px) 100vw, (max-width: 1279px) 50vw, 642px" className="object-cover" />
         </div>
       </section>
 
@@ -105,23 +105,7 @@ export default async function HomePage() {
         </Link>
       </section>
 
-      {featuredMenus.length > 0 && (
-        <section className="border-y border-border bg-muted/45 py-16 md:py-24">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="max-w-2xl">
-              <p className="text-sm font-bold text-emerald-700 dark:text-emerald-300">Menu pilihan</p>
-              <h2 className="mt-2 text-3xl font-bold tracking-[-0.04em] text-foreground sm:text-4xl">Mulai dari menu yang ingin disajikan</h2>
-              <p className="mt-3 text-base leading-7 text-muted-foreground">Pilih menu satuan untuk menyusun acara. Harga terbaru bisa ditanyakan lewat WhatsApp.</p>
-            </div>
-            <div className="mt-8 grid gap-4 md:grid-cols-2">
-              {featuredMenus.map((item) => <MenuCard key={item.id} item={item} image={getCatalogImageUrl(item.imagePath, "/images/nasi-kotak.jpg")} />)}
-            </div>
-            <Link href="/menu#menu-satuan" className="mt-7 inline-flex min-h-11 items-center gap-2 text-sm font-bold text-emerald-800 transition hover:text-emerald-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 dark:text-emerald-300">
-              Lihat menu satuan <ArrowRight className="h-4 w-4" aria-hidden="true" />
-            </Link>
-          </div>
-        </section>
-      )}
+      <HomePackagePreview collections={packageCollections} packages={packageCatalogue} />
 
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-24 lg:px-8">
         <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
@@ -142,7 +126,7 @@ export default async function HomePage() {
       <section className="border-y border-border bg-muted/45 py-16 md:py-24">
         <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:items-center md:gap-12 lg:px-8">
           <div className="relative min-h-[260px] overflow-hidden rounded-2xl bg-emerald-950 sm:min-h-[340px]">
-            <Image src="/images/nasi-kotak.jpg" alt="Nasi kotak untuk kebutuhan catering harian" fill sizes="(max-width: 767px) 100vw, 45vw" className="object-cover" />
+            <Image src="/images/nasi-kotak.jpg" alt="Nasi kotak untuk kebutuhan catering harian" fill sizes="(max-width: 767px) 100vw, (max-width: 1279px) 45vw, 526px" className="object-cover" />
           </div>
           <div className="max-w-xl">
             <p className="text-sm font-bold text-emerald-700 dark:text-emerald-300">Catering harian</p>
@@ -186,7 +170,6 @@ export default async function HomePage() {
         summary={useStaticReviewFallback ? GOOGLE_REVIEW_SUMMARY : reviewSummary}
         available={useStaticReviewFallback || Boolean(reviewSnapshot)}
       />
-      <TrustDocumentsSection />
       <FaqSection />
 
       <section className="bg-muted/45 py-16 md:py-24">
@@ -211,9 +194,9 @@ export default async function HomePage() {
         <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-8 text-sm text-muted-foreground sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
           <p>Shanti Catering. Mulyorejo, Surabaya.</p>
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-            <Link href="/menu" className="font-semibold text-foreground hover:text-emerald-700 dark:hover:text-emerald-300">Paket &amp; Menu</Link>
-            <Link href="/galeri" className="font-semibold text-foreground hover:text-emerald-700 dark:hover:text-emerald-300">Galeri Acara</Link>
-            <Link href="/catering-harian" className="font-semibold text-foreground hover:text-emerald-700 dark:hover:text-emerald-300">Catering Harian</Link>
+            <Link href="/menu" className="font-semibold text-foreground hover:text-emerald-700 dark:hover:text-emerald-300">Paket &amp; menu</Link>
+            <Link href="/galeri" className="font-semibold text-foreground hover:text-emerald-700 dark:hover:text-emerald-300">Galeri acara</Link>
+            <Link href="/catering-harian" className="font-semibold text-foreground hover:text-emerald-700 dark:hover:text-emerald-300">Catering harian</Link>
             <WhatsAppCta placement="footer" className="font-semibold text-foreground hover:text-emerald-700 dark:hover:text-emerald-300">WhatsApp</WhatsAppCta>
           </div>
         </div>

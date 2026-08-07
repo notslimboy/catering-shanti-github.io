@@ -5,9 +5,9 @@ import { itemVariants } from "./BentoGrid";
 import { Star, ShoppingBag, UtensilsCrossed, Clock } from "lucide-react";
 
 const stats = [
-    { icon: ShoppingBag, value: "5rb+", label: "Pesanan Selesai" },
-    { icon: Star, value: "4.9★", label: "Rating Pelanggan" },
-    { icon: UtensilsCrossed, value: "15+", label: "Varian Menu" },
+    { icon: ShoppingBag, value: "5rb+", label: "Pesanan selesai" },
+    { icon: Star, value: "4.9★", label: "Rating pelanggan" },
+    { icon: UtensilsCrossed, value: "15+", label: "Varian menu" },
     { icon: Clock, value: "H-1", label: "Pemesanan" },
 ];
 
@@ -23,7 +23,7 @@ export function StatsCard() {
             // spans 2 cols on large screens to fill the row after 2 testimonials
             className="sm:col-span-2 rounded-3xl overflow-hidden bg-gradient-to-br from-emerald-950/80 to-zinc-900 border border-emerald-900/30 dark:border-emerald-800/20 p-6 flex flex-col justify-center h-full"
         >
-            <h2 className="text-xs font-bold text-emerald-400 uppercase tracking-widest mb-4 text-center">
+            <h2 className="text-xs font-bold text-emerald-400 tracking-widest mb-4 text-center">
                 Keunggulan Shanti Catering
             </h2>
             {/* 4-col grid when spanning 2 cols (lg), 2×2 otherwise */}
@@ -57,7 +57,7 @@ export function StatsCard() {
                     <span className="text-base">✅</span>
                     <div>
                         <p className="text-xs font-bold text-white leading-none">Berizin Dinkes</p>
-                        <p className="text-[10px] text-emerald-300/60 mt-0.5">Terdaftar Resmi</p>
+                        <p className="text-[10px] text-emerald-300/60 mt-0.5">Terdaftar resmi</p>
                     </div>
                 </div>
             </div>

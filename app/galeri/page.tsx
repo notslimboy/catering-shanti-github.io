@@ -6,11 +6,11 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { GALLERY_ITEMS } from "@/lib/public-content";
 
 export const metadata: Metadata = {
-  title: "Contoh Sajian Catering Surabaya",
+  title: "Contoh sajian catering Surabaya",
   description: "Lihat contoh sajian Shanti Catering di Surabaya. Galeri ini berupa ilustrasi menu, bukan dokumentasi acara.",
   alternates: { canonical: "/galeri" },
   openGraph: {
-    title: "Contoh Sajian | Shanti Catering Surabaya",
+    title: "Contoh sajian | Shanti Catering Surabaya",
     description: "Contoh sajian menu Shanti Catering untuk berbagai kebutuhan acara.",
     images: [{ url: "/images/nasi-kotak.jpg", width: 1200, height: 630, alt: "Contoh sajian nasi kotak Shanti Catering" }],
   },

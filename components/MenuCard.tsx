@@ -20,7 +20,8 @@ export function MenuCard({ item, image, compact = false }: MenuCardProps) {
           src={image}
           alt={item.name}
           fill
-          sizes={compact ? "(max-width: 768px) 82vw, (max-width: 1200px) 45vw, 29vw" : "(max-width: 768px) 100vw, 32vw"}
+          loading="lazy"
+          sizes={compact ? "(max-width: 1279px) 50vw, 395px" : "(max-width: 767px) 100vw, (max-width: 1279px) 50vw, 608px"}
           className="object-cover transition duration-500 group-hover:scale-[1.035]"
         />
       </div>

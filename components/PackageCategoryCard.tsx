@@ -53,7 +53,7 @@ export function PackageCategoryCard({ item, image, className = "" }: PackageCate
         </Link>
       </div>
       <div className="relative order-1 aspect-[16/9] overflow-hidden sm:order-2 sm:aspect-auto">
-        <Image src={image} alt={item.name} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 40vw" className="object-cover transition duration-500 group-hover:scale-[1.035]" />
+        <Image src={image} alt={item.name} fill loading="lazy" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 40vw" className="object-cover transition duration-500 group-hover:scale-[1.035]" />
       </div>
     </article>
   );

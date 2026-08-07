@@ -6,9 +6,12 @@ import type { CustomerOrganization } from "@/lib/public-content";
 
 type CustomerLogoTooltipProps = {
   customer: CustomerOrganization;
+  tabIndex?: number;
+  eager?: boolean;
+  onActivityChange?: (isActive: boolean) => void;
 };
 
-export function CustomerLogoTooltip({ customer }: CustomerLogoTooltipProps) {
+export function CustomerLogoTooltip({ customer, tabIndex, eager = false, onActivityChange }: CustomerLogoTooltipProps) {
   const tooltipId = `customer-logo-tooltip-${useId().replace(/:/g, "")}`;
   const buttonRef = useRef<HTMLButtonElement>(null);
   const tooltipRef = useRef<HTMLSpanElement>(null);
@@ -58,38 +61,49 @@ export function CustomerLogoTooltip({ customer }: CustomerLogoTooltipProps) {
     const closeOnOutsideTouch = (event: PointerEvent) => {
       if (event.pointerType === "touch" && !buttonRef.current?.contains(event.target as Node)) {
         setOpen(false);
+        onActivityChange?.(false);
       }
     };
 
     document.addEventListener("pointerdown", closeOnOutsideTouch);
     return () => document.removeEventListener("pointerdown", closeOnOutsideTouch);
-  }, [open]);
+  }, [onActivityChange, open]);
 
   const showTooltip = () => {
-    if (!escapeDismissed) setOpen(true);
+    if (!escapeDismissed) {
+      setOpen(true);
+      onActivityChange?.(true);
+    }
   };
 
   return (
     <button
       ref={buttonRef}
       type="button"
+      tabIndex={tabIndex}
       aria-label={customer.name}
       aria-describedby={open ? tooltipId : undefined}
       onMouseEnter={showTooltip}
-      onMouseLeave={() => setOpen(false)}
+      onMouseLeave={() => {
+        setOpen(false);
+        onActivityChange?.(false);
+      }}
       onFocus={() => {
         if (touchPointerRef.current) return;
         setEscapeDismissed(false);
         setOpen(true);
+        onActivityChange?.(true);
       }}
       onBlur={() => {
         setEscapeDismissed(false);
         setOpen(false);
+        onActivityChange?.(false);
       }}
       onKeyDown={(event) => {
         if (event.key === "Escape") {
           setEscapeDismissed(true);
           setOpen(false);
+          onActivityChange?.(false);
         }
       }}
       onPointerDown={(event) => {
@@ -98,12 +112,18 @@ export function CustomerLogoTooltip({ customer }: CustomerLogoTooltipProps) {
       onPointerUp={(event) => {
         if (event.pointerType === "touch") {
           setEscapeDismissed(false);
-          setOpen((current) => !current);
+          const nextOpen = !open;
+          setOpen(nextOpen);
+          onActivityChange?.(nextOpen);
           touchPointerRef.current = false;
         }
       }}
-      className={`relative flex h-20 min-h-11 w-full items-center justify-center rounded-2xl border p-4 transition-none hover:border-emerald-700 focus-visible:border-emerald-700 focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2 active:translate-y-px motion-reduce:transition-none sm:h-24 sm:p-5 ${
-        customer.logoSrc ? "border-border bg-white" : "border-border bg-card"
+      className={`relative flex h-[108px] min-h-11 w-full items-center justify-center rounded-xl border p-4 outline-none focus-visible:border-emerald-600 focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-emerald-950 sm:h-[124px] sm:p-5 ${
+        open
+          ? "border-emerald-500 bg-emerald-50 shadow-[0_10px_24px_-18px_rgb(16_185_129_/_0.9)]"
+          : customer.logoSrc
+            ? "border-emerald-950/10 bg-white"
+            : "border-emerald-950/10 bg-emerald-50"
       }`}
     >
       {customer.logoSrc ? (
@@ -113,11 +133,12 @@ export function CustomerLogoTooltip({ customer }: CustomerLogoTooltipProps) {
           aria-hidden="true"
           width={224}
           height={96}
-          sizes="(max-width: 639px) 42vw, (max-width: 1023px) 28vw, 18vw"
+          loading={eager ? "eager" : "lazy"}
+          sizes="(max-width: 639px) 168px, 208px"
           className={
             customer.markOnly
-              ? "h-11 w-11 object-contain sm:h-14 sm:w-14"
-              : "max-h-11 w-auto max-w-full object-contain sm:max-h-14"
+              ? "h-13 w-13 object-contain sm:h-16 sm:w-16"
+              : "max-h-13 w-auto max-w-full object-contain sm:max-h-16"
           }
         />
       ) : (

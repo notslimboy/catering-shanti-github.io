@@ -41,8 +41,8 @@ export function PaketCard() {
         >
             <div className="flex items-center gap-2 mb-1">
                 <UtensilsCrossed className="w-4 h-4 text-emerald-500" />
-                <h2 className="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest">
-                    Paket Kami
+                <h2 className="text-xs font-bold text-emerald-600 dark:text-emerald-400 tracking-widest">
+                    Paket kami
                 </h2>
             </div>
 

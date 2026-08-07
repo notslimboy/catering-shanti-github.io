@@ -5,22 +5,23 @@ import { ArrowRight, MessageCircle } from "lucide-react";
 import { SiteHeader } from "@/components/SiteHeader";
 import { EventPackageGuideCard } from "@/components/EventPackageGuideCard";
 import { PackageCategoryCard } from "@/components/PackageCategoryCard";
-import { CustomMenuCtaCard } from "@/components/CustomMenuCtaCard";
-import { MenuCard } from "@/components/MenuCard";
+import { PackageCataloguePreview } from "@/components/PackageCataloguePreview";
+import { MenuCategoryPreview } from "@/components/MenuCategoryPreview";
 import { WhatsAppCta } from "@/components/WhatsAppCta";
 import { WhatsAppBrandIcon } from "@/components/icons/WhatsAppIcon";
 import { getActiveMenuItems, getActivePackages } from "@/lib/catalog";
 import { getCatalogImageUrl } from "@/lib/catalog-image";
 import { EVENT_PACKAGE_GUIDES } from "@/lib/event-package-guides";
+import { getAllPackageCollections, getAllPackages } from "@/lib/package-catalogue";
 
 export const metadata: Metadata = {
-  title: "Menu & Paket Catering Surabaya",
+  title: "Menu & paket catering Surabaya",
   description: "Pilih menu, nasi kotak, prasmanan, tumpeng, atau paket catering untuk acara keluarga dan kantor di Surabaya.",
   alternates: { canonical: "/menu" },
   openGraph: {
-    title: "Menu & Paket Catering Surabaya | Shanti Catering",
+    title: "Menu & paket catering Surabaya | Shanti Catering",
     description: "Pilih menu dan paket catering untuk acara keluarga, kantor, dan kebutuhan harian.",
-    images: [{ url: "/images/tumpeng.jpg", width: 1200, height: 630, alt: "Contoh sajian tumpeng Shanti Catering" }],
+    images: [{ url: "/images/tumpeng-hero.webp", width: 1366, height: 768, alt: "Contoh sajian tumpeng Shanti Catering" }],
   },
 };
 
@@ -28,8 +29,8 @@ const packageFallbackImages: Record<string, string> = {
   "catering-pernikahan-surabaya": "/images/nasi-kotak.jpg",
   "catering-kantor-surabaya": "/images/paket-coffe-break.jpg",
   "catering-aqiqah-surabaya": "/images/ayam-canton.jpg",
-  "tumpeng-surabaya": "/images/tumpeng.jpg",
-  "prasmanan-acara-surabaya": "/images/beef.jpg",
+  "tumpeng-surabaya": "/images/tumpeng-hero.webp",
+  "prasmanan-acara-surabaya": "/images/beef.webp",
   "nasi-kotak-surabaya": "/images/jajan-pasar.jpg",
 };
 
@@ -41,6 +42,8 @@ const menuGroups = [
 
 export default async function MenuPage() {
   const [menuItems, packages] = await Promise.all([getActiveMenuItems(), getActivePackages()]);
+  const catalogueCollections = getAllPackageCollections();
+  const cataloguePackages = getAllPackages();
   const packageGroups = Array.from(
     packages.reduce((groups, item) => {
       if (!item.category) return groups;
@@ -56,7 +59,7 @@ export default async function MenuPage() {
 
       <section className="mx-auto grid max-w-7xl gap-8 px-4 pb-16 pt-10 sm:px-6 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:items-center md:gap-12 md:pb-24 md:pt-16 lg:px-8">
         <div className="max-w-xl">
-          <p className="text-sm font-bold text-emerald-700 dark:text-emerald-300">Paket & Menu</p>
+          <p className="text-sm font-bold text-emerald-700 dark:text-emerald-300">Paket & menu</p>
           <h1 className="mt-3 text-4xl font-bold tracking-[-0.045em] text-foreground sm:text-5xl">Pilih menu untuk acara yang sedang disiapkan</h1>
           <p className="mt-5 text-base leading-7 text-muted-foreground sm:text-lg">Mulai dari paket acara atau menu satuan. Pilih yang sesuai, lalu isi jumlah porsi dan tanggal acara.</p>
           <Link href="#jenis-acara" className="mt-7 inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-emerald-700 px-5 text-sm font-bold text-white transition hover:bg-emerald-800 active:translate-y-px">
@@ -64,7 +67,7 @@ export default async function MenuPage() {
           </Link>
         </div>
         <div className="relative min-h-[300px] overflow-hidden rounded-2xl bg-emerald-950 sm:min-h-[390px]">
-          <Image src="/images/tumpeng.jpg" alt="Tumpeng untuk acara syukuran" fill priority sizes="(max-width: 767px) 100vw, 55vw" className="object-cover" />
+          <Image src="/images/tumpeng-hero.webp" alt="Tumpeng untuk acara syukuran" fill preload sizes="(max-width: 767px) 100vw, (max-width: 1279px) 50vw, 642px" className="object-cover" style={{ objectPosition: "center 48%" }} />
         </div>
       </section>
 
@@ -74,13 +77,15 @@ export default async function MenuPage() {
             <h2 className="text-3xl font-bold tracking-[-0.04em] text-foreground sm:text-4xl">Mulai dari jenis acara</h2>
             <p className="mt-3 text-base leading-7 text-muted-foreground">Pilih contoh acara, lalu ceritakan menu, tanggal, lokasi, dan jumlah porsi yang dibutuhkan.</p>
           </div>
-          <div className="mt-8 grid items-start gap-4 md:grid-cols-2 xl:grid-cols-3">
+          <div className="mt-8 grid grid-cols-2 items-start gap-3 md:grid-cols-2 md:gap-4 xl:grid-cols-3">
             {EVENT_PACKAGE_GUIDES.map((guide) => (
-              <EventPackageGuideCard key={guide.slug} guide={guide} />
+              <EventPackageGuideCard key={guide.slug} guide={guide} compactOnMobile />
             ))}
           </div>
         </div>
       </section>
+
+      <PackageCataloguePreview collections={catalogueCollections} packages={cataloguePackages} />
 
       {packageGroups.length > 0 && (
         <section id="paket" className="scroll-mt-24 py-16 md:py-24">
@@ -111,7 +116,7 @@ export default async function MenuPage() {
 
       <section id="custom" className="mx-auto grid max-w-7xl gap-0 overflow-hidden rounded-2xl border border-border bg-card px-4 py-0 sm:px-6 md:my-24 md:grid-cols-2 md:px-0 lg:mx-auto lg:px-0">
         <div className="relative min-h-[280px] md:order-2 md:min-h-full">
-          <Image src="/images/menu-arab.jpg" alt="Hidangan untuk menu custom" fill sizes="(max-width: 767px) 100vw, 50vw" className="object-cover" />
+          <Image src="/images/menu-arab.webp" alt="Hidangan untuk menu custom" fill sizes="(max-width: 767px) 100vw, (max-width: 1279px) 50vw, 640px" className="object-cover" />
         </div>
         <div className="flex flex-col justify-center py-10 md:order-1 md:p-10 lg:p-14">
           <h2 className="text-3xl font-bold tracking-[-0.04em] text-foreground">Butuh menu yang lebih khusus?</h2>
@@ -137,16 +142,15 @@ export default async function MenuPage() {
             const items = menuItems.filter((item) => item.menuType === group.id);
             if (items.length === 0) return null;
             return (
-              <section key={group.id} aria-labelledby={`${group.id}-heading`}>
-                <div className="max-w-xl">
-                  <h3 id={`${group.id}-heading`} className="text-2xl font-bold tracking-tight text-foreground">{group.title}</h3>
-                  <p className="mt-2 text-sm leading-6 text-muted-foreground">{group.description}</p>
-                </div>
-                <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-                  {items.map((item) => <MenuCard key={item.id} item={item} image={getCatalogImageUrl(item.imagePath, "/images/nasi-kotak.jpg")} compact />)}
-                  {(group.id === "makanan" || group.id === "minuman") && <CustomMenuCtaCard placement={`menu_custom_card_${group.id}`} />}
-                </div>
-              </section>
+              <MenuCategoryPreview
+                key={group.id}
+                id={group.id}
+                title={group.title}
+                description={group.description}
+                items={items}
+                images={Object.fromEntries(items.map((item) => [item.id, getCatalogImageUrl(item.imagePath, "/images/nasi-kotak.jpg")]))}
+                customMenuPlacement={group.id === "makanan" || group.id === "minuman" ? `menu_custom_card_${group.id}` : undefined}
+              />
             );
           })}
         </div>

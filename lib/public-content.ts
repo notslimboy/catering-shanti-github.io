@@ -20,7 +20,7 @@ export type CustomerOrganization = {
   logoSrc: string | null;
   darkSurface?: boolean;
   markOnly?: boolean;
-  logoScale?: "large" | "medium" | "largeMark";
+  logoScale?: "large" | "medium" | "largeMark" | "prominentEmblem" | "prominentShield" | "prominentUniversityMark" | "portraitCrest" | "wideWordmark";
 };
 
 export type GoogleReview = {
@@ -60,7 +60,7 @@ export const GALLERY_ITEMS: GalleryItem[] = [
     description: "Contoh sajian tumpeng Shanti Catering, bukan dokumentasi resepsi.",
     alt: "Contoh sajian tumpeng dari Shanti Catering, bukan dokumentasi resepsi keluarga",
     status: "ready",
-    imageSrc: "/images/tumpeng.jpg",
+    imageSrc: "/images/tumpeng-hero.webp",
     gridClassName: "col-span-2 row-span-2 md:col-span-3 md:row-span-3 md:col-start-1 md:row-start-1 lg:col-span-6 lg:row-span-4 lg:col-start-1 lg:row-start-1",
     teaserGridClassName: "col-span-2 row-span-2 md:col-span-3 md:row-span-2 md:col-start-1 md:row-start-1",
     teaserSizes: "(max-width: 767px) 100vw, 50vw",
@@ -72,7 +72,7 @@ export const GALLERY_ITEMS: GalleryItem[] = [
     description: "Contoh coffee break Shanti Catering, bukan dokumentasi acara kantor.",
     alt: "Contoh coffee break dari Shanti Catering, bukan dokumentasi acara kantor",
     status: "ready",
-    imageSrc: "/images/paket-coffe-break.jpg",
+    imageSrc: "/images/events/coffee-break.jpg",
     gridClassName: "col-span-1 row-span-1 md:col-span-3 md:row-span-2 md:col-start-4 md:row-start-1 lg:col-span-3 lg:row-span-2 lg:col-start-7 lg:row-start-1",
     teaserGridClassName: "col-span-1 row-span-1 md:col-span-3 md:row-span-1 md:col-start-4 md:row-start-1",
     teaserSizes: "(max-width: 767px) 50vw, 50vw",
@@ -96,7 +96,7 @@ export const GALLERY_ITEMS: GalleryItem[] = [
     description: "Contoh nasi liwet Shanti Catering, bukan dokumentasi acara keluarga.",
     alt: "Contoh nasi liwet dari Shanti Catering, bukan dokumentasi aqiqah atau khitanan",
     status: "ready",
-    imageSrc: "/images/nasi-liwet-solo.jpg",
+    imageSrc: "/images/nasi-liwet-solo.webp",
     gridClassName: "col-span-1 row-span-1 md:col-span-2 md:row-span-2 md:col-start-1 md:row-start-4 lg:col-span-3 lg:row-span-2 lg:col-start-7 lg:row-start-3",
     teaserGridClassName: "col-span-2 row-span-1 md:col-span-6 md:row-span-1 md:col-start-1 md:row-start-3",
     teaserSizes: "100vw",
@@ -108,7 +108,7 @@ export const GALLERY_ITEMS: GalleryItem[] = [
     description: "Contoh sajian rawon Shanti Catering, bukan dokumentasi penataan prasmanan.",
     alt: "Contoh sajian rawon dari Shanti Catering, bukan dokumentasi prasmanan acara",
     status: "ready",
-    imageSrc: "/images/rawon.jpg",
+    imageSrc: "/images/rawon.webp",
     gridClassName: "col-span-1 row-span-1 md:col-span-2 md:row-span-2 md:col-start-3 md:row-start-4 lg:col-span-3 lg:row-span-2 lg:col-start-10 lg:row-start-3",
     teaserGridClassName: "col-span-1 row-span-1 md:col-span-2 md:row-span-2 md:col-start-3 md:row-start-4",
     sizes: "(max-width: 767px) 50vw, (max-width: 1023px) 34vw, 25vw",
@@ -141,7 +141,7 @@ export const GALLERY_ITEMS: GalleryItem[] = [
     description: "Contoh nasi jagung Shanti Catering, bukan dokumentasi catering harian.",
     alt: "Contoh nasi jagung dari Shanti Catering, bukan dokumentasi catering harian",
     status: "ready",
-    imageSrc: "/images/nasi-jagung.jpg",
+    imageSrc: "/images/nasi-jagung.webp",
     gridClassName: "col-span-1 row-span-1 md:col-span-3 md:row-span-2 md:col-start-4 md:row-start-6 lg:col-span-4 lg:row-span-3 lg:col-start-9 lg:row-start-5",
     teaserGridClassName: "col-span-1 row-span-1 md:col-span-3 md:row-span-2 md:col-start-4 md:row-start-6",
     sizes: "(max-width: 767px) 50vw, (max-width: 1023px) 50vw, 34vw",
@@ -152,7 +152,7 @@ export const GALLERY_ITEMS: GalleryItem[] = [
     description: "Contoh gado-gado Shanti Catering, bukan dokumentasi makan bersama.",
     alt: "Contoh gado-gado dari Shanti Catering, bukan dokumentasi acara makan bersama",
     status: "ready",
-    imageSrc: "/images/gado-gado.jpg",
+    imageSrc: "/images/gado-gado.webp",
     gridClassName: "col-span-1 row-span-1 md:col-span-3 md:row-span-2 md:col-start-1 md:row-start-8 lg:col-span-6 lg:row-span-3 lg:col-start-1 lg:row-start-8",
     teaserGridClassName: "col-span-1 row-span-1 md:col-span-3 md:row-span-2 md:col-start-1 md:row-start-8",
     sizes: "(max-width: 767px) 50vw, (max-width: 1023px) 50vw, 50vw",
@@ -163,7 +163,7 @@ export const GALLERY_ITEMS: GalleryItem[] = [
     description: "Contoh menu Arab Shanti Catering, bukan dokumentasi menu custom acara.",
     alt: "Contoh menu Arab dari Shanti Catering, bukan dokumentasi menu custom acara",
     status: "ready",
-    imageSrc: "/images/menu-arab.jpg",
+    imageSrc: "/images/menu-arab.webp",
     gridClassName: "col-span-1 row-span-1 md:col-span-3 md:row-span-2 md:col-start-4 md:row-start-8 lg:col-span-6 lg:row-span-3 lg:col-start-7 lg:row-start-8",
     teaserGridClassName: "col-span-1 row-span-1 md:col-span-3 md:row-span-2 md:col-start-4 md:row-start-8",
     sizes: "(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 50vw",
@@ -175,8 +175,8 @@ export const CUSTOMER_ORGANIZATIONS: CustomerOrganization[] = [
     id: "its",
     name: "Institut Teknologi Sepuluh Nopember",
     wordmark: "ITS",
-    logoSrc: "/images/customers/its-wordmark.png",
-    logoScale: "large",
+    logoSrc: "/images/customers/its-emblem.png",
+    logoScale: "prominentEmblem",
   },
   {
     id: "pens",
@@ -190,7 +190,7 @@ export const CUSTOMER_ORGANIZATIONS: CustomerOrganization[] = [
     name: "Universitas Airlangga",
     wordmark: "UNAIR",
     logoSrc: "/images/customers/unair.png",
-    logoScale: "large",
+    logoScale: "portraitCrest",
   },
   {
     id: "bkkbn",
@@ -217,7 +217,7 @@ export const CUSTOMER_ORGANIZATIONS: CustomerOrganization[] = [
     name: "Al Azhar Surabaya",
     wordmark: "Al Azhar Surabaya",
     logoSrc: "/images/customers/al-azhar.png",
-    logoScale: "large",
+    logoScale: "portraitCrest",
   },
   {
     id: "sman-3-surabaya",
@@ -225,14 +225,14 @@ export const CUSTOMER_ORGANIZATIONS: CustomerOrganization[] = [
     wordmark: "SMAN 3 Surabaya",
     logoSrc: "/images/customers/sman-3-surabaya-emblem.png",
     markOnly: true,
-    logoScale: "largeMark",
+    logoScale: "prominentShield",
   },
   {
     id: "smpn-18-surabaya",
     name: "SMPN 18 Surabaya",
     wordmark: "SMPN 18 Surabaya",
     logoSrc: "/images/customers/smpn-18-surabaya.png",
-    logoScale: "large",
+    logoScale: "prominentShield",
   },
   {
     id: "solomon-indo-global",
@@ -240,6 +240,41 @@ export const CUSTOMER_ORGANIZATIONS: CustomerOrganization[] = [
     wordmark: "Solomon Indo Global",
     logoSrc: "/images/customers/solomon.webp",
     logoScale: "large",
+  },
+  {
+    id: "dkpp-surabaya",
+    name: "Dinas Ketahanan Pangan dan Pertanian Kota Surabaya",
+    wordmark: "DKPP Kota Surabaya",
+    logoSrc: "/images/customers/dkpp-surabaya.png",
+    logoScale: "wideWordmark",
+  },
+  {
+    id: "perhutani-jatim",
+    name: "Perum Perhutani Divisi Regional Jawa Timur",
+    wordmark: "Perhutani",
+    logoSrc: "/images/customers/perhutani-jatim.png",
+    logoScale: "wideWordmark",
+  },
+  {
+    id: "ubaya",
+    name: "Universitas Surabaya",
+    wordmark: "UBAYA",
+    logoSrc: "/images/customers/ubaya.png",
+    logoScale: "portraitCrest",
+  },
+  {
+    id: "uwika",
+    name: "Universitas Widya Kartika",
+    wordmark: "UWIKA",
+    logoSrc: "/images/customers/uwika.png",
+    logoScale: "prominentUniversityMark",
+  },
+  {
+    id: "ubhara",
+    name: "Universitas Bhayangkara Surabaya",
+    wordmark: "UBHARA",
+    logoSrc: "/images/customers/ubhara.png",
+    logoScale: "prominentShield",
   },
 ];
 

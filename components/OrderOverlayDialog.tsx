@@ -26,11 +26,12 @@ export function OrderOverlayDialog({ menuItems, packages, intent }: OrderOverlay
       if (!open) closeOverlay();
     }}>
       <Dialog.Portal>
-        <Dialog.Backdrop className="fixed inset-0 z-50 bg-black/45 supports-[backdrop-filter]:backdrop-blur-[2px] md:bg-black/20 md:backdrop-blur-none" />
-        <Dialog.Viewport className="fixed inset-0 z-50 flex items-stretch">
-          <Dialog.Popup className="flex h-[100dvh] w-full flex-col overflow-hidden bg-background outline-none">
-            <header className="shrink-0 border-b border-border bg-card px-5 py-4 sm:px-7 md:px-8">
-              <div className="mx-auto flex w-full max-w-[68rem] items-start justify-between gap-4">
+        <Dialog.Backdrop className="fixed inset-0 z-50 bg-emerald-950/55 backdrop-blur-[2px] transition-opacity duration-300 ease-out data-[starting-style]:opacity-0 data-[ending-style]:opacity-0 motion-reduce:transition-none" />
+        <Dialog.Viewport className="fixed inset-0 z-50 flex items-end justify-center">
+          <Dialog.Popup className="max-h-[calc(100dvh-0.5rem)] w-full overflow-y-auto overscroll-contain rounded-t-2xl border-x border-t border-border bg-background shadow-[0_-20px_56px_rgba(6,78,59,0.18)] outline-none transition-[transform,opacity] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] data-[starting-style]:translate-y-full data-[ending-style]:translate-y-full motion-reduce:translate-y-0 motion-reduce:transition-none sm:max-h-[min(52rem,calc(100dvh-2rem))] sm:max-w-xl lg:max-w-2xl">
+            <div className="mx-auto min-h-full w-full max-w-2xl px-5 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-[max(0.75rem,env(safe-area-inset-top))] sm:px-7 sm:pb-8 sm:pt-5 lg:px-8">
+              <div aria-hidden="true" className="mx-auto mb-4 h-1.5 w-10 rounded-full bg-border" />
+              <header className="flex items-start justify-between gap-4">
                 <div className="min-w-0">
                   <Dialog.Close className="-ml-2 inline-flex min-h-11 items-center gap-2 rounded-xl px-2 text-sm font-bold text-emerald-800 transition-colors hover:text-emerald-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 dark:text-emerald-300 dark:focus-visible:ring-emerald-300 dark:focus-visible:ring-offset-background">
                     <ArrowLeft className="size-4" aria-hidden="true" />
@@ -44,27 +45,19 @@ export function OrderOverlayDialog({ menuItems, packages, intent }: OrderOverlay
                 <Dialog.Close className="inline-flex size-11 shrink-0 items-center justify-center rounded-xl border border-border bg-background text-muted-foreground transition-colors hover:border-emerald-700/30 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 dark:focus-visible:ring-emerald-300 dark:focus-visible:ring-offset-background" aria-label="Tutup formulir pemesanan">
                   <X className="size-5" aria-hidden="true" />
                 </Dialog.Close>
-              </div>
-            </header>
+              </header>
 
-            <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 py-5 sm:px-7 sm:py-6 md:px-8 md:py-10">
-              <div className="mx-auto w-full max-w-[68rem]">
-                <OrderSelectionSummary intent={intent} />
-                <div className="mt-5">
-                  <OrderForm
-                    menuItems={menuItems}
-                    packages={packages}
-                    initialSelection={intent}
-                    source={`pesan_${intent.source}`}
-                    draftKey="shanti-order-draft-pesan"
-                    submitFooterTargetId="order-overlay-submit-footer"
-                  />
-                </div>
+              <OrderSelectionSummary intent={intent} className="mt-7" />
+              <div className="mt-5">
+                <OrderForm
+                  menuItems={menuItems}
+                  packages={packages}
+                  initialSelection={intent}
+                  source={`pesan_${intent.source}`}
+                  draftKey="shanti-order-draft-pesan"
+                />
               </div>
             </div>
-            <footer className="shrink-0 border-t border-border bg-card px-5 pb-[max(1rem,env(safe-area-inset-bottom))] pt-3 shadow-[0_-10px_28px_rgba(6,78,59,0.08)] dark:shadow-[0_-10px_28px_rgba(0,0,0,0.24)] sm:px-7 md:px-8 md:pb-4">
-              <div id="order-overlay-submit-footer" className="mx-auto w-full max-w-[68rem]" />
-            </footer>
           </Dialog.Popup>
         </Dialog.Viewport>
       </Dialog.Portal>

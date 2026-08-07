@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useId, useMemo, useRef, useState } from "react";
-import { createPortal } from "react-dom";
 import { useSearchParams } from "next/navigation";
 import { Controller, useForm, type FieldPath } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -135,13 +134,11 @@ type OrderFormProps = QuickOrderFormProps & {
   initialSelection?: OrderInitialSelection;
   source?: string;
   draftKey?: string;
-  stickySubmitOnMobile?: boolean;
-  submitFooterTargetId?: string;
 };
 
 const ORDER_DRAFT_TTL_MS = 24 * 60 * 60 * 1000;
 
-export function OrderForm({ menuItems, packages, initialSelection: providedSelection, source = "homepage_order_form", draftKey = "shanti-order-draft", stickySubmitOnMobile = false, submitFooterTargetId }: OrderFormProps) {
+export function OrderForm({ menuItems, packages, initialSelection: providedSelection, source = "homepage_order_form", draftKey = "shanti-order-draft" }: OrderFormProps) {
   const searchParams = useSearchParams();
   const formId = useId();
   const menuId = searchParams.get("menuId");
@@ -162,7 +159,6 @@ export function OrderForm({ menuItems, packages, initialSelection: providedSelec
   const [fallbackUrl, setFallbackUrl] = useState<string | null>(null);
   const [apiError, setApiError] = useState<string | null>(null);
   const [activeCustomContext, setActiveCustomContext] = useState<OrderCustomContext | undefined>(initialSelection.customContext);
-  const [submitFooterTarget, setSubmitFooterTarget] = useState<HTMLElement | null>(null);
   const formStarted = useRef(false);
   const draftHydrated = useRef(false);
 
@@ -231,10 +227,6 @@ export function OrderForm({ menuItems, packages, initialSelection: providedSelec
       // Session storage is a convenience, never a blocker for ordering.
     }
   }, [activeCustomContext, draftCustomRequest, draftDate, draftKey, draftPorsi, selectedType]);
-
-  useEffect(() => {
-    setSubmitFooterTarget(submitFooterTargetId ? document.getElementById(submitFooterTargetId) : null);
-  }, [submitFooterTargetId]);
 
   const onFormStart = () => {
     if (formStarted.current) return;
@@ -414,13 +406,13 @@ export function OrderForm({ menuItems, packages, initialSelection: providedSelec
             </button>
             {selectionOpen && (
               <div id="catalog-selection-options" role="listbox" aria-label="Pilihan menu atau paket" className="absolute z-20 mt-2 max-h-72 w-full overflow-y-auto rounded-xl border border-border bg-popover p-1 shadow-xl">
-                {menuItems.length > 0 && <p className="px-3 pt-2 text-xs font-bold text-muted-foreground">MENU SATUAN</p>}
+                {menuItems.length > 0 && <p className="px-3 pt-2 text-xs font-bold text-muted-foreground">Menu satuan</p>}
                 {menuItems.map((item) => (
                   <button key={item.id} type="button" role="option" aria-selected={selectedType === "menu" && selectedId === item.id} onClick={() => chooseSelection("menu", item.id)} className="w-full rounded-lg px-3 py-2.5 text-left text-sm font-medium text-foreground transition hover:bg-emerald-50 dark:hover:bg-emerald-950/40">
                     <span className="font-medium text-foreground">{item.name}</span>
                   </button>
                 ))}
-                {packages.length > 0 && <p className="px-3 pt-3 text-xs font-bold text-muted-foreground">PAKET ACARA</p>}
+                {packages.length > 0 && <p className="px-3 pt-3 text-xs font-bold text-muted-foreground">Paket acara</p>}
                 {packages.map((item) => (
                   <button key={item.id} type="button" role="option" aria-selected={selectedType === "package" && selectedId === item.id} onClick={() => chooseSelection("package", item.id)} className="w-full rounded-lg px-3 py-2.5 text-left text-sm font-medium text-foreground transition hover:bg-emerald-50 dark:hover:bg-emerald-950/40">
                     {item.name}
@@ -459,13 +451,8 @@ export function OrderForm({ menuItems, packages, initialSelection: providedSelec
           <textarea id="notes" rows={3} placeholder="Contoh: pilihan lauk, alergi, atau kebutuhan lain" className="order-input resize-y" aria-invalid={Boolean(errors.notes)} aria-describedby={errors.notes ? "notes-error" : undefined} {...register("notes")} />
         </Field>
 
-        {!submitFooterTarget && (
-          <div className={stickySubmitOnMobile ? "sticky bottom-0 -mx-5 border-t border-border bg-card/95 px-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-3 backdrop-blur-sm sm:static sm:mx-0 sm:border-0 sm:bg-transparent sm:p-0 sm:backdrop-blur-none" : undefined}>
-            {submitButton}
-          </div>
-        )}
+        {submitButton}
       </form>
-      {submitFooterTarget && createPortal(submitButton, submitFooterTarget)}
     </section>
   );
 }

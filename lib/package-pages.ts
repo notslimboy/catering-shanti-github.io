@@ -1,18 +1,18 @@
 export const PACKAGE_PAGES = {
   "catering-pernikahan-surabaya": {
-    title: "Paket Catering Pernikahan Surabaya",
+    title: "Paket catering pernikahan Surabaya",
     summary: "Susun hidangan resepsi sesuai jumlah tamu, tanggal, dan konsep acara.",
-    image: "/images/tumpeng.jpg",
+    image: "/images/tumpeng-hero.webp",
     highlights: ["Pilihan prasmanan", "Menu pendamping", "Bantu pilih jumlah porsi"],
   },
   "catering-kantor-surabaya": {
-    title: "Paket Catering Kantor Surabaya",
+    title: "Paket catering kantor Surabaya",
     summary: "Nasi kotak dan sajian meeting untuk kebutuhan kantor, rapat, dan acara tim.",
     image: "/images/nasi-kotak.jpg",
     highlights: ["Nasi kotak", "Coffee break", "Atur jadwal pengiriman"],
   },
   "catering-aqiqah-surabaya": {
-    title: "Paket Aqiqah Surabaya",
+    title: "Paket aqiqah Surabaya",
     summary: "Pilihan menu untuk acara aqiqah yang dapat disesuaikan dengan kebutuhan keluarga.",
     image: "/images/ayam-canton.jpg",
     highlights: ["Paket keluarga", "Pilihan nasi box", "Bantu pilih jumlah porsi"],
@@ -24,9 +24,9 @@ export const PACKAGE_PAGES = {
     highlights: ["Pilihan lauk", "Porsi sesuai acara", "Pesan sesuai jadwal"],
   },
   "tumpeng-surabaya": {
-    title: "Paket Tumpeng Surabaya",
+    title: "Paket tumpeng Surabaya",
     summary: "Tumpeng untuk syukuran dan perayaan dengan pilihan pendamping sesuai acara.",
-    image: "/images/tumpeng.jpg",
+    image: "/images/tumpeng-hero.webp",
     highlights: ["Tumpeng untuk perayaan", "Menu pendamping", "Bantu pilih jumlah porsi"],
   },
 } as const;
