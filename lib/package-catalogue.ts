@@ -118,11 +118,3 @@ export function getPackageByCollectionAndSlug(collectionIdOrSlug: string, packag
   const collection = PACKAGE_COLLECTIONS.find((item) => item.id === collectionIdOrSlug || item.slug === collectionIdOrSlug);
   return collection ? packageByCollectionAndSlug.get(`${collection.id}/${packageSlug}`) ?? null : null;
 }
-
-export function getPackageBySlug(packageSlug: string) {
-  return PACKAGE_CATALOGUE.find((item) => item.slug === packageSlug) ?? null;
-}
-
-export function getPackagePreview(collectionIdOrSlug: string) {
-  return getPackagesByCollection(collectionIdOrSlug).slice(0, 3);
-}

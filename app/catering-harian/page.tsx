@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Building2, CalendarDays, House, MessageCircle, Truck } from "lucide-react";
+import { ArrowRight, Building2, CalendarDays, House, Truck } from "lucide-react";
+import { ClosingCta } from "@/components/ClosingCta";
 import { DailyMenuGallery } from "@/components/DailyMenuGallery";
 import { SiteHeader } from "@/components/SiteHeader";
+import { SiteFooter } from "@/components/SiteFooter";
 import { WhatsAppCta } from "@/components/WhatsAppCta";
 import { WhatsAppBrandIcon } from "@/components/icons/WhatsAppIcon";
 import { DAILY_MENU_GALLERY } from "@/lib/daily-menu-gallery";
@@ -132,21 +134,15 @@ export default function CateringHarianPage() {
         </div>
       </section>
 
-      <section className="border-t border-border bg-card py-12">
-        <div className="mx-auto flex max-w-7xl flex-col gap-5 px-4 sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
-          <div>
-            <MessageCircle className="h-5 w-5 text-emerald-700 dark:text-emerald-300" aria-hidden="true" />
-            <h2 className="mt-3 text-2xl font-bold tracking-tight text-foreground">Butuh catering untuk acara?</h2>
-            <p className="mt-1 text-sm leading-6 text-muted-foreground">Lihat paket dan menu yang bisa disesuaikan dengan kebutuhan acara.</p>
-          </div>
-          <Link
-            href="/menu"
-            className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-xl border border-emerald-700/25 px-5 text-sm font-bold text-emerald-800 transition hover:bg-emerald-50 active:translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 dark:text-emerald-300 dark:hover:bg-emerald-950/40"
-          >
-            Lihat paket & menu <ArrowRight className="h-4 w-4" aria-hidden="true" />
-          </Link>
-        </div>
-      </section>
+      <ClosingCta
+        image="/images/catering-harian-hero.webp"
+        imageAlt="Nasi kotak untuk catering harian"
+        title="Mau cek menu dan ketersediaan hari ini?"
+        description="Kirim jumlah porsi dan alamat pengantaran. Kami bantu cek pilihan menu serta jadwal antar yang tersedia."
+        primaryAction={{ kind: "whatsapp", placement: "daily_catering_closing_cta", label: "Tanya menu hari ini" }}
+        secondaryAction={{ kind: "link", href: "/menu", label: "Lihat paket & menu" }}
+      />
+      <SiteFooter />
     </main>
   );
 }

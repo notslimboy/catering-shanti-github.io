@@ -1,19 +1,18 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Suspense } from "react";
-import { ArrowRight, CalendarDays, MapPin, MessageCircle, Truck, UtensilsCrossed } from "lucide-react";
+import { ArrowRight, CalendarDays, Truck, UtensilsCrossed } from "lucide-react";
 import { CustomerLogoWall } from "@/components/CustomerLogoWall";
+import { ClosingCta } from "@/components/ClosingCta";
 import { EventPackageGuideCard } from "@/components/EventPackageGuideCard";
 import { FaqSection } from "@/components/FaqSection";
 import { GalleryMasonry } from "@/components/GalleryMasonry";
 import { GoogleReviewsSection } from "@/components/GoogleReviewsSection";
 import { HomePackagePreview } from "@/components/HomePackagePreview";
 import { MapSection } from "@/components/MapSection";
-import { QuickOrderForm } from "@/components/QuickOrderForm";
 import { SiteHeader } from "@/components/SiteHeader";
+import { SiteFooter } from "@/components/SiteFooter";
 import { WhatsAppCta } from "@/components/WhatsAppCta";
 import { WhatsAppBrandIcon } from "@/components/icons/WhatsAppIcon";
-import { getActiveMenuItems, getActivePackages } from "@/lib/catalog";
 import { EVENT_PACKAGE_GUIDES } from "@/lib/event-package-guides";
 import { getAllPackageCollections, getAllPackages } from "@/lib/package-catalogue";
 import { GOOGLE_REVIEWS, GOOGLE_REVIEW_SUMMARY, GALLERY_ITEMS } from "@/lib/public-content";
@@ -21,15 +20,11 @@ import { hasGoogleReviewsSnapshotEnabled } from "@/lib/server/config";
 import { getPublishedGoogleReviewsSnapshot } from "@/lib/server/google-review-snapshot-entry";
 
 export default async function HomePage() {
-  const [menuItems, packages] = await Promise.all([
-    getActiveMenuItems(),
-    getActivePackages(),
-  ]);
   const snapshotEnabled = hasGoogleReviewsSnapshotEnabled();
   const googleReviewsSnapshot = snapshotEnabled
     ? await getPublishedGoogleReviewsSnapshot()
     : { state: "fresh_setup" as const, snapshot: null, profileUrl: null };
-  const useStaticReviewFallback = !snapshotEnabled;
+  const useStaticReviewFallback = !googleReviewsSnapshot.snapshot;
   const reviewSnapshot = googleReviewsSnapshot.snapshot;
   const reviewSummary = reviewSnapshot?.summary ?? {
     rating: "—",
@@ -172,35 +167,17 @@ export default async function HomePage() {
       />
       <FaqSection />
 
-      <section className="bg-muted/45 py-16 md:py-24">
-        <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[minmax(0,0.78fr)_minmax(0,1.22fr)] lg:px-8">
-          <div className="flex flex-col justify-between rounded-2xl bg-emerald-950 p-7 text-white sm:p-9">
-            <div>
-              <MessageCircle className="h-6 w-6 text-emerald-300" aria-hidden="true" />
-              <h2 className="mt-5 text-3xl font-bold tracking-[-0.04em]">Sudah punya gambaran acaranya?</h2>
-              <p className="mt-3 leading-7 text-emerald-100/75">Ceritakan menu, jumlah porsi, tanggal, dan lokasi. Setelah data tersimpan, detail pesanan dilanjutkan di WhatsApp.</p>
-            </div>
-            <p className="mt-10 inline-flex items-start gap-2 text-sm text-emerald-100/75"><MapPin className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" /> Mulyorejo, Surabaya</p>
-          </div>
-          <Suspense fallback={<div className="min-h-[620px] rounded-2xl border border-border bg-card" aria-busy="true" />}>
-            <QuickOrderForm menuItems={menuItems} packages={packages} />
-          </Suspense>
-        </div>
-      </section>
-
       <MapSection />
 
-      <footer className="border-t border-border">
-        <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-8 text-sm text-muted-foreground sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
-          <p>Shanti Catering. Mulyorejo, Surabaya.</p>
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-            <Link href="/menu" className="font-semibold text-foreground hover:text-emerald-700 dark:hover:text-emerald-300">Paket &amp; menu</Link>
-            <Link href="/galeri" className="font-semibold text-foreground hover:text-emerald-700 dark:hover:text-emerald-300">Galeri acara</Link>
-            <Link href="/catering-harian" className="font-semibold text-foreground hover:text-emerald-700 dark:hover:text-emerald-300">Catering harian</Link>
-            <WhatsAppCta placement="footer" className="font-semibold text-foreground hover:text-emerald-700 dark:hover:text-emerald-300">WhatsApp</WhatsAppCta>
-          </div>
-        </div>
-      </footer>
+      <ClosingCta
+        image="/images/events/resepsi-pernikahan.webp"
+        imageAlt="Sajian untuk acara keluarga"
+        title="Sudah punya gambaran acaranya?"
+        description="Ceritakan menu, jumlah porsi, tanggal, dan lokasi. Kami bantu menyiapkan langkah berikutnya."
+        primaryAction={{ kind: "link", href: "/pesan?intent=custom", label: "Ceritakan kebutuhan" }}
+        secondaryAction={{ kind: "whatsapp", placement: "home_closing_cta", label: "Tanya via WhatsApp" }}
+      />
+      <SiteFooter />
     </main>
   );
 }

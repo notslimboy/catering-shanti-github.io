@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
+import { ClosingCta } from "@/components/ClosingCta";
 import { PackageCatalogueCard } from "@/components/PackageCatalogueCard";
 import { SiteHeader } from "@/components/SiteHeader";
+import { SiteFooter } from "@/components/SiteFooter";
 import { getAllPackageCollections, getPackagesByCollection } from "@/lib/package-catalogue";
 
 type CollectionPageProps = {
@@ -50,6 +52,15 @@ export default async function PackageCollectionPage({ params }: CollectionPagePr
           {packages.map((item) => <PackageCatalogueCard key={item.id} item={item} collection={collection} />)}
         </div>
       </section>
+      <ClosingCta
+        image="/images/nasi-kotak.jpg"
+        imageAlt="Sajian catering untuk berbagai kebutuhan acara"
+        title={`Ingin menyesuaikan paket ${collection.name}?`}
+        description="Ceritakan jumlah porsi, tanggal, lokasi, dan menu yang diinginkan. Kami bantu menyesuaikannya dengan acara Anda."
+        primaryAction={{ kind: "link", href: `/pesan?intent=custom&topic=${encodeURIComponent(collection.name)}`, label: "Ceritakan kebutuhan" }}
+        secondaryAction={{ kind: "whatsapp", placement: "package_collection_closing_cta", label: "Tanya via WhatsApp" }}
+      />
+      <SiteFooter />
     </main>
   );
 }

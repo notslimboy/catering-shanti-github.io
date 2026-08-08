@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ClosingCta } from "@/components/ClosingCta";
 import { GalleryMasonry } from "@/components/GalleryMasonry";
 import { SiteHeader } from "@/components/SiteHeader";
+import { SiteFooter } from "@/components/SiteFooter";
 import { GALLERY_ITEMS } from "@/lib/public-content";
 
 export const metadata: Metadata = {
@@ -31,20 +31,15 @@ export default function GaleriPage() {
         </div>
       </section>
 
-      <section className="border-t border-border bg-muted/35">
-        <div className="mx-auto flex max-w-3xl flex-col items-center px-4 py-16 text-center sm:px-6 md:py-20">
-          <div>
-          <h2 className="text-2xl font-bold tracking-tight text-foreground">Ceritakan acara yang sedang disiapkan</h2>
-          <p className="mt-2 text-sm leading-6 text-muted-foreground">Pilih paket atau ceritakan menu, jumlah porsi, tanggal, dan lokasi lewat formulir pesanan.</p>
-          </div>
-          <Link
-            href="/pesan?intent=custom"
-            className="mt-6 inline-flex h-12 shrink-0 items-center justify-center gap-2 rounded-xl bg-emerald-700 px-5 text-sm font-bold text-white transition hover:bg-emerald-800 active:translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2"
-          >
-            Ceritakan acaranya <ArrowRight className="h-4 w-4" aria-hidden="true" />
-          </Link>
-        </div>
-      </section>
+      <ClosingCta
+        image="/images/tumpeng-hero.webp"
+        imageAlt="Tumpeng untuk acara syukuran"
+        title="Sudah menemukan inspirasi untuk acaranya?"
+        description="Ceritakan menu, jumlah porsi, tanggal, dan lokasi. Kami bantu menerjemahkan inspirasi Anda menjadi kebutuhan catering."
+        primaryAction={{ kind: "link", href: "/pesan?intent=custom", label: "Ceritakan acara" }}
+        secondaryAction={{ kind: "whatsapp", placement: "gallery_closing_cta", label: "Tanya via WhatsApp" }}
+      />
+      <SiteFooter />
     </main>
   );
 }

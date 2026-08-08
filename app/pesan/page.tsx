@@ -5,6 +5,7 @@ import { ArrowLeft } from "lucide-react";
 import { OrderForm } from "@/components/OrderForm";
 import { OrderSelectionSummary } from "@/components/OrderSelectionSummary";
 import { SiteHeader } from "@/components/SiteHeader";
+import { SiteFooter } from "@/components/SiteFooter";
 import { getActiveMenuItems, getActivePackages } from "@/lib/catalog";
 import { resolveOrderIntent } from "@/lib/order-intent";
 
@@ -64,6 +65,7 @@ export default async function PesanPage({ searchParams }: PesanPageProps) {
           </Suspense>
         </div>
       </section>
+      <SiteFooter />
     </main>
   );
 }

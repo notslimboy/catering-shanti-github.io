@@ -76,9 +76,8 @@ export async function readGoogleReviewsData(supabase: SupabaseClient): Promise<C
   };
 }
 
-export function toPublicGoogleReviewsData(data: CachedGoogleReviewsData, now = Date.now()): PublicGoogleReviewsData {
+export function toPublicGoogleReviewsData(data: CachedGoogleReviewsData): PublicGoogleReviewsData {
   if (!data.snapshot) return { state: data.stateExists ? "unavailable" : "fresh_setup", snapshot: null, profileUrl: null };
-  if (Date.parse(data.snapshot.expiresAt) <= now) return { state: "unavailable", snapshot: null, profileUrl: data.snapshot.profileUrl };
   const reviews = data.snapshot.items
     .filter((item) => typeof item.comment === "string" && item.comment.trim().length > 0)
     .map((item) => ({
@@ -107,11 +106,6 @@ export function toPublicGoogleReviewsData(data: CachedGoogleReviewsData, now = D
 type Claim = { claimed: boolean; state_status: string; next_due_at: string; lease_token: string | null };
 function firstRow<T>(data: T[] | T | null): T | null { return Array.isArray(data) ? data[0] ?? null : data; }
 
-async function purgeExpired(supabase: SupabaseClient, now: string) {
-  const { error } = await supabase.rpc("purge_expired_google_review_snapshots", { p_now: now });
-  if (error) throw new SnapshotRepositoryError("purge_failed");
-}
-
 async function claim(supabase: SupabaseClient, now: string): Promise<Claim> {
   const { data, error } = await supabase.rpc("claim_google_review_sync", { p_now: now, p_lease_until: isoAfterHours(new Date(now), LEASE_MINUTES / 60) });
   const row = firstRow(data as Claim[] | null);
@@ -131,9 +125,6 @@ function summarizeError(error: unknown) {
 
 export async function runGoogleReviewsSync(dependencies: SnapshotSyncDependencies): Promise<GoogleReviewSyncResult> {
   const attemptedAt = new Date().toISOString();
-  try { await purgeExpired(dependencies.supabase, attemptedAt); }
-  catch (error) { return { status: "unavailable", published: false, attemptedAt, nextDueAt: null, reviewCount: null, errorSummary: summarizeError(error) }; }
-
   let lease: Claim;
   try { lease = await claim(dependencies.supabase, attemptedAt); }
   catch (error) { return { status: "unavailable", published: false, attemptedAt, nextDueAt: null, reviewCount: null, errorSummary: summarizeError(error) }; }

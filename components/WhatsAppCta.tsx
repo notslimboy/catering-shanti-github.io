@@ -7,12 +7,13 @@ import { trackEvent } from "@/lib/analytics";
 interface WhatsAppCtaProps extends Omit<ComponentProps<"a">, "href"> {
   children: ReactNode;
   placement: string;
+  href?: string;
 }
 
-export function WhatsAppCta({ children, placement, onClick, ...props }: WhatsAppCtaProps) {
+export function WhatsAppCta({ children, placement, href = WA_URL, onClick, ...props }: WhatsAppCtaProps) {
   return (
     <a
-      href={WA_URL}
+      href={href}
       target="_blank"
       rel="noopener noreferrer"
       onClick={(event) => {

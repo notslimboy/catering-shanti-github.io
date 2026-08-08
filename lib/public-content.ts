@@ -39,12 +39,6 @@ export type GoogleReviewSummary = {
   ratingValue?: number | null;
 };
 
-export type TrustDocument = {
-  id: string;
-  title: string;
-  description: string;
-};
-
 export type FaqItem = {
   id: string;
   question: string;
@@ -328,24 +322,6 @@ export const GOOGLE_REVIEWS: GoogleReview[] = [
     rating: 5,
     reviewAge: "6 tahun lalu",
     quote: "Makanan enak, harga bersaing, cukup higienis, pelayanan tdk mengecewakan.",
-  },
-];
-
-export const TRUST_DOCUMENTS: TrustDocument[] = [
-  {
-    id: "legalitas-usaha",
-    title: "Legalitas usaha",
-    description: "Dokumen akan ditampilkan setelah verifikasi.",
-  },
-  {
-    id: "dokumen-kebersihan",
-    title: "Dokumen kebersihan",
-    description: "Dokumen akan ditampilkan setelah verifikasi.",
-  },
-  {
-    id: "sertifikat-izin",
-    title: "Sertifikat dan izin terkait",
-    description: "Dokumen akan ditampilkan setelah verifikasi.",
   },
 ];
 

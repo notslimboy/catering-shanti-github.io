@@ -3,7 +3,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, MessageCircle } from "lucide-react";
+import { ClosingCta } from "@/components/ClosingCta";
 import { SiteHeader } from "@/components/SiteHeader";
+import { SiteFooter } from "@/components/SiteFooter";
 import { getCatalogImageUrl } from "@/lib/catalog-image";
 import { getActivePackages, type PublicPackage } from "@/lib/catalog";
 import { PACKAGE_PAGES, isPackagePageSlug } from "@/lib/package-pages";
@@ -108,9 +110,9 @@ export default async function PackagePage({ params }: PackagePageProps) {
     : "Minimum porsi sesuai kebutuhan acara";
 
   return (
-    <>
+    <main className="min-h-[100dvh] bg-background">
       <SiteHeader />
-      <main className="bg-background px-4 pb-20 pt-10 sm:pt-14">
+      <div className="px-4 pb-20 pt-10 sm:pt-14">
         <article className="mx-auto max-w-6xl">
           <Link
             href="/menu"
@@ -162,7 +164,16 @@ export default async function PackagePage({ params }: PackagePageProps) {
             </div>
           </div>
         </article>
-      </main>
-    </>
+      </div>
+      <ClosingCta
+        image={item.image}
+        imageAlt={item.title}
+        title={`Ingin menyesuaikan ${item.title}?`}
+        description="Ceritakan jumlah porsi, tanggal, lokasi, dan kebutuhan acara. Kami bantu menyiapkan pilihan yang sesuai."
+        primaryAction={{ kind: "link", href: orderUrl, label: "Pilih paket" }}
+        secondaryAction={{ kind: "whatsapp", href: consultationUrl, placement: "service_package_closing_cta", label: "Tanya paket" }}
+      />
+      <SiteFooter />
+    </main>
   );
 }

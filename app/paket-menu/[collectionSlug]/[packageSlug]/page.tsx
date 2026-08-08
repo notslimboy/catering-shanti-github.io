@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Check, MessageCircle } from "lucide-react";
+import { ClosingCta } from "@/components/ClosingCta";
 import { PackagePhotoPlaceholder } from "@/components/PackageCatalogueCard";
 import { SiteHeader } from "@/components/SiteHeader";
+import { SiteFooter } from "@/components/SiteFooter";
 import { getAllPackageCollections, getAllPackages, getPackageByCollectionAndSlug } from "@/lib/package-catalogue";
 import { getWhatsAppUrl } from "@/lib/site";
 
@@ -74,6 +76,15 @@ export default async function PackageDetailPage({ params }: PackageDetailPagePro
           </div>
         </article>
       </section>
+      <ClosingCta
+        image="/images/nasi-kotak.jpg"
+        imageAlt="Sajian catering untuk paket pilihan"
+        title={`Ingin menyesuaikan ${item.name}?`}
+        description={`Ceritakan jumlah porsi, tanggal, lokasi, dan kebutuhan lain untuk paket ${item.name}.`}
+        primaryAction={{ kind: "link", href: `/pesan?intent=custom&topic=${encodeURIComponent(item.name)}`, label: "Sesuaikan paket" }}
+        secondaryAction={{ kind: "whatsapp", href: whatsappUrl, placement: "package_detail_closing_cta", label: "Tanya paket" }}
+      />
+      <SiteFooter />
     </main>
   );
 }
