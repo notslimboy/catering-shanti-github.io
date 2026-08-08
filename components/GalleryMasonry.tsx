@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from "react";
 import { Dialog } from "@base-ui/react/dialog";
 import { ChevronLeft, ChevronRight, Download, RotateCcw, X, ZoomIn, ZoomOut } from "lucide-react";
 import type { GalleryItem } from "@/lib/public-content";
@@ -23,6 +23,8 @@ export function GalleryMasonry({ items, id = "galeri-acara", variant = "page" }:
   const [zoom, setZoom] = useState(MIN_ZOOM);
   const openerRef = useRef<HTMLButtonElement | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
+  const requestedIndexRef = useRef<number | null>(null);
+  const navigationRequestRef = useRef(0);
   const isTeaser = variant === "teaser";
   const readyItems = items.filter((item) => item.status === "ready" && item.imageSrc);
   const activeItem = activeIndex === null ? null : readyItems[activeIndex] ?? null;
@@ -32,12 +34,18 @@ export function GalleryMasonry({ items, id = "galeri-acara", variant = "page" }:
     ? "grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-4"
     : "grid grid-cols-2 auto-rows-[148px] gap-3 min-[480px]:auto-rows-[168px] min-[480px]:gap-4 md:grid-cols-6 md:auto-rows-[136px] lg:grid-cols-12 lg:auto-rows-[132px]";
 
-  const closeImage = () => setActiveIndex(null);
+  const closeImage = () => {
+    navigationRequestRef.current += 1;
+    requestedIndexRef.current = null;
+    setActiveIndex(null);
+  };
 
   const openImage = (item: GalleryItem, opener: HTMLButtonElement) => {
     const index = readyItems.findIndex((readyItem) => readyItem.id === item.id);
     if (index < 0) return;
     openerRef.current = opener;
+    requestedIndexRef.current = index;
+    navigationRequestRef.current += 1;
     setZoom(MIN_ZOOM);
     setActiveIndex(index);
   };
@@ -46,31 +54,57 @@ export function GalleryMasonry({ items, id = "galeri-acara", variant = "page" }:
     setZoom(Math.min(Math.max(Math.round(nextZoom * 100) / 100, MIN_ZOOM), MAX_ZOOM));
   };
 
+  const preloadImage = useCallback((source: string) => {
+    if (!source) return;
+    const image = new window.Image();
+    image.src = source;
+  }, []);
+
+  const goTo = async (nextIndex: number) => {
+    if (nextIndex < 0 || nextIndex >= readyItems.length) return;
+    requestedIndexRef.current = nextIndex;
+    const requestId = ++navigationRequestRef.current;
+    const image = new window.Image();
+    image.src = readyItems[nextIndex].imageSrc!;
+    try {
+      await image.decode();
+    } catch {
+      try {
+        await new Promise<void>((resolve, reject) => {
+          image.onload = () => resolve();
+          image.onerror = () => reject(new Error("Image failed to load"));
+        });
+      } catch {
+        return;
+      }
+    }
+    if (requestId !== navigationRequestRef.current || requestedIndexRef.current !== nextIndex) return;
+    setZoom(MIN_ZOOM);
+    setActiveIndex(nextIndex);
+  };
+
+  const isOpen = activeIndex !== null;
+  useEffect(() => {
+    if (isOpen) closeButtonRef.current?.focus();
+    return () => {
+      if (isOpen) openerRef.current?.focus();
+    };
+  }, [isOpen]);
+
   useEffect(() => {
     if (activeIndex === null) return;
+    preloadImage(readyItems[activeIndex - 1]?.imageSrc ?? "");
+    preloadImage(readyItems[activeIndex + 1]?.imageSrc ?? "");
+  }, [activeIndex, preloadImage, readyItems]);
 
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") closeImage();
-      if (event.key === "ArrowLeft") {
-        event.preventDefault();
-        setActiveIndex((index) => index === null ? index : Math.max(0, index - 1));
-        setZoom(MIN_ZOOM);
-      }
-      if (event.key === "ArrowRight") {
-        event.preventDefault();
-        setActiveIndex((index) => index === null ? index : Math.min(readyItems.length - 1, index + 1));
-        setZoom(MIN_ZOOM);
-      }
-    };
-
-    window.addEventListener("keydown", onKeyDown);
-    closeButtonRef.current?.focus();
-
-    return () => {
-      window.removeEventListener("keydown", onKeyDown);
-      openerRef.current?.focus();
-    };
-  }, [activeIndex, readyItems.length]);
+  const onPopupKeyDownCapture = (event: ReactKeyboardEvent<HTMLDivElement>) => {
+    if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+    event.preventDefault();
+    event.stopPropagation();
+    const requestedIndex = requestedIndexRef.current ?? activeIndex;
+    if (requestedIndex === null) return;
+    void goTo(requestedIndex + (event.key === "ArrowLeft" ? -1 : 1));
+  };
 
   return (
     <>
@@ -127,7 +161,7 @@ export function GalleryMasonry({ items, id = "galeri-acara", variant = "page" }:
         <Dialog.Portal>
           <Dialog.Backdrop className="fixed inset-0 z-50 bg-[#062d22]/95" />
           <Dialog.Viewport className="fixed inset-0 z-50">
-            <Dialog.Popup className="relative h-[100dvh] w-full overflow-hidden bg-[#062d22] text-white outline-none">
+            <Dialog.Popup onKeyDownCapture={onPopupKeyDownCapture} className="relative h-[100dvh] w-full overflow-hidden bg-[#062d22] text-white outline-none">
               {activeItem?.imageSrc && activeIndex !== null && (
                 <>
                   <header className="pointer-events-none absolute inset-x-0 top-0 z-20 px-3 pb-3 pt-[max(0.75rem,env(safe-area-inset-top))] sm:px-6 sm:pt-6">
@@ -169,7 +203,7 @@ export function GalleryMasonry({ items, id = "galeri-acara", variant = "page" }:
 
                   <button
                     type="button"
-                    onClick={() => { setActiveIndex((index) => index === null ? index : index - 1); setZoom(MIN_ZOOM); }}
+                    onClick={() => { if (activeIndex !== null) void goTo((requestedIndexRef.current ?? activeIndex) - 1); }}
                     disabled={!canGoPrevious}
                     className={`${iconButtonClass} absolute left-3 top-1/2 z-20 -translate-y-1/2 sm:left-6`}
                     aria-label="Foto sebelumnya"
@@ -178,7 +212,7 @@ export function GalleryMasonry({ items, id = "galeri-acara", variant = "page" }:
                   </button>
                   <button
                     type="button"
-                    onClick={() => { setActiveIndex((index) => index === null ? index : index + 1); setZoom(MIN_ZOOM); }}
+                    onClick={() => { if (activeIndex !== null) void goTo((requestedIndexRef.current ?? activeIndex) + 1); }}
                     disabled={!canGoNext}
                     className={`${iconButtonClass} absolute right-3 top-1/2 z-20 -translate-y-1/2 sm:right-6`}
                     aria-label="Foto berikutnya"

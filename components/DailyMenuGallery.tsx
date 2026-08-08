@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState, type MouseEvent as ReactMouseEvent, type PointerEvent as ReactPointerEvent, type WheelEvent } from "react";
+import { useCallback, useEffect, useRef, useState, type KeyboardEvent as ReactKeyboardEvent, type MouseEvent as ReactMouseEvent, type PointerEvent as ReactPointerEvent, type WheelEvent } from "react";
 import { Dialog } from "@base-ui/react/dialog";
 import { ChevronLeft, ChevronRight, Download, RotateCcw, X, ZoomIn, ZoomOut } from "lucide-react";
 import { WhatsAppCta } from "@/components/WhatsAppCta";
@@ -38,7 +38,10 @@ export function DailyMenuGallery({ items }: DailyMenuGalleryProps) {
   const dragStartRef = useRef<{ point: Point; pan: Pan } | null>(null);
   const pointersRef = useRef(new Map<number, Point>());
   const pinchRef = useRef<{ distance: number; zoom: number } | null>(null);
+  const requestedIndexRef = useRef<number | null>(null);
+  const navigationRequestRef = useRef(0);
   const activeItem = activeIndex === null ? null : items[activeIndex] ?? null;
+  const isOpen = activeIndex !== null;
   const canGoPrevious = activeIndex !== null && activeIndex > 0;
   const canGoNext = activeIndex !== null && activeIndex < items.length - 1;
   const shareActionLabel = canUseNativeShare ? "Bagikan atau simpan gambar" : "Simpan gambar asli";
@@ -71,12 +74,18 @@ export function DailyMenuGallery({ items }: DailyMenuGalleryProps) {
 
   const openPoster = (index: number, opener: HTMLButtonElement) => {
     openerRef.current = opener;
+    requestedIndexRef.current = index;
+    navigationRequestRef.current += 1;
     setPan({ x: 0, y: 0 });
     setZoom(MIN_ZOOM);
     setActiveIndex(index);
   };
 
-  const closePoster = () => setActiveIndex(null);
+  const closePoster = () => {
+    navigationRequestRef.current += 1;
+    requestedIndexRef.current = null;
+    setActiveIndex(null);
+  };
 
   const downloadOriginal = (item: DailyMenuGalleryEntry) => {
     const link = document.createElement("a");
@@ -115,36 +124,57 @@ export function DailyMenuGallery({ items }: DailyMenuGalleryProps) {
     }
   };
 
-  const goTo = useCallback((nextIndex: number) => {
+  const preloadImage = useCallback((source: string) => {
+    if (!source) return;
+    const image = new window.Image();
+    image.src = source;
+  }, []);
+
+  const goTo = useCallback(async (nextIndex: number) => {
     if (nextIndex < 0 || nextIndex >= items.length) return;
+    requestedIndexRef.current = nextIndex;
+    const requestId = ++navigationRequestRef.current;
+    const image = new window.Image();
+    image.src = items[nextIndex].sourceUrl;
+    try {
+      await image.decode();
+    } catch {
+      try {
+        await new Promise<void>((resolve, reject) => {
+          image.onload = () => resolve();
+          image.onerror = () => reject(new Error("Image failed to load"));
+        });
+      } catch {
+        return;
+      }
+    }
+    if (requestId !== navigationRequestRef.current || requestedIndexRef.current !== nextIndex) return;
     setPan({ x: 0, y: 0 });
     setZoom(MIN_ZOOM);
     setActiveIndex(nextIndex);
-  }, [items.length]);
+  }, [items]);
 
   useEffect(() => {
-    if (activeIndex === null) return;
-    closeButtonRef.current?.focus();
-    return () => openerRef.current?.focus();
-  }, [activeIndex]);
-
-  useEffect(() => {
-    if (activeIndex === null) return;
-
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "ArrowLeft") {
-        event.preventDefault();
-        goTo(activeIndex - 1);
-      }
-      if (event.key === "ArrowRight") {
-        event.preventDefault();
-        goTo(activeIndex + 1);
-      }
+    if (isOpen) closeButtonRef.current?.focus();
+    return () => {
+      if (isOpen) openerRef.current?.focus();
     };
+  }, [isOpen]);
 
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, [activeIndex, goTo]);
+  useEffect(() => {
+    if (activeIndex === null) return;
+    preloadImage(items[activeIndex - 1]?.sourceUrl ?? "");
+    preloadImage(items[activeIndex + 1]?.sourceUrl ?? "");
+  }, [activeIndex, items, preloadImage]);
+
+  const onPopupKeyDownCapture = (event: ReactKeyboardEvent<HTMLDivElement>) => {
+    if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+    event.preventDefault();
+    event.stopPropagation();
+    const requestedIndex = requestedIndexRef.current ?? activeIndex;
+    if (requestedIndex === null) return;
+    void goTo(requestedIndex + (event.key === "ArrowLeft" ? -1 : 1));
+  };
 
   const onPointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
     event.currentTarget.setPointerCapture(event.pointerId);
@@ -258,7 +288,7 @@ export function DailyMenuGallery({ items }: DailyMenuGalleryProps) {
         <Dialog.Portal>
           <Dialog.Backdrop className="fixed inset-0 z-50 bg-emerald-950/95" />
           <Dialog.Viewport className="fixed inset-0 z-50">
-            <Dialog.Popup className="relative h-[100dvh] w-full overflow-hidden bg-emerald-950 text-white outline-none">
+            <Dialog.Popup onKeyDownCapture={onPopupKeyDownCapture} className="relative h-[100dvh] w-full overflow-hidden bg-emerald-950 text-white outline-none">
               {activeItem && activeIndex !== null && (
                 <>
                   <header className="pointer-events-none absolute inset-x-0 top-0 z-20 px-3 pb-3 pt-[max(0.75rem,env(safe-area-inset-top))] sm:px-6 sm:pt-6">
@@ -310,7 +340,7 @@ export function DailyMenuGallery({ items }: DailyMenuGalleryProps) {
 
                   <button
                     type="button"
-                    onClick={() => goTo(activeIndex - 1)}
+                    onClick={() => goTo((requestedIndexRef.current ?? activeIndex) - 1)}
                     disabled={!canGoPrevious}
                     className={`${iconButtonClass} absolute left-3 top-1/2 z-20 -translate-y-1/2 sm:left-6`}
                     aria-label="Poster sebelumnya"
@@ -319,7 +349,7 @@ export function DailyMenuGallery({ items }: DailyMenuGalleryProps) {
                   </button>
                   <button
                     type="button"
-                    onClick={() => goTo(activeIndex + 1)}
+                    onClick={() => goTo((requestedIndexRef.current ?? activeIndex) + 1)}
                     disabled={!canGoNext}
                     className={`${iconButtonClass} absolute right-3 top-1/2 z-20 -translate-y-1/2 sm:right-6`}
                     aria-label="Poster berikutnya"
